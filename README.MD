@@ -27,7 +27,7 @@ project-LAZY/
 
 - **Mobile**: Flutter, Riverpod, GoRouter, Drift (SQLite), `flutter_local_notifications`, `speech_to_text`
 - **Backend**: Golang, Gin, `log/slog`, `go-playground/validator`
-- **AI Gateway**: 9Router (OpenAI-compatible)
+- **AI Gateway**: Hidden
 
 ---
 
