@@ -43,18 +43,18 @@ Pengembangan LAZY menggunakan pendekatan **Vertical Slice Development** yang dip
 | Task ID | Nama Task | Milestone | Prioritas | Dependensi | Status |
 |---|---|---|---|---|---|
 | M00-T01 | Inisialisasi Monorepo & Konfigurasi Git | M00 | Must Have | - | DONE |
-| M00-T02 | Inisialisasi Proyek Flutter Mobile | M00 | Must Have | M00-T01 | TODO |
-| M00-T03 | Inisialisasi Modul Go Backend | M00 | Must Have | M00-T01 | TODO |
-| M00-T04 | Setup Environment & Verifikasi Build Baseline | M00 | Must Have | M00-T02, M00-T03 | TODO |
-| M01-T01 | Implementasi Design Tokens & Theme Flutter | M01 | Must Have | M00-T02 | TODO |
-| M01-T02 | Implementasi Komponen Dasar Reusable | M01 | Must Have | M01-T01 | TODO |
-| M01-T03 | Setup Navigasi GoRouter & Bottom Navigation Shell | M01 | Must Have | M01-T02 | TODO |
-| M01-T04 | Placeholder Screens & Widget Testing Shell | M01 | Must Have | M01-T03 | TODO |
-| M02-T01 | Setup Drift SQLite Database & Skema Tasks | M02 | Must Have | M00-T02 | TODO |
-| M02-T02 | Implementasi TaskRepository & Unit Tests | M02 | Must Have | M02-T01 | TODO |
-| M02-T03 | Implementasi Reactive Task Riverpod Providers | M02 | Must Have | M02-T02 | TODO |
-| M02-T04 | Implementasi UI Task List & Status Toggle | M02 | Must Have | M01-T03, M02-T03 | TODO |
-| M02-T05 | Implementasi UI Task Detail, Edit & Delete | M02 | Must Have | M02-T04 | TODO |
+| M00-T02 | Inisialisasi Proyek Flutter Mobile | M00 | Must Have | M00-T01 | DONE |
+| M00-T03 | Inisialisasi Modul Go Backend | M00 | Must Have | M00-T01 | DONE |
+| M00-T04 | Setup Environment & Verifikasi Build Baseline | M00 | Must Have | M00-T02, M00-T03 | DONE |
+| M01-T01 | Implementasi Design Tokens & Theme Flutter | M01 | Must Have | M00-T02 | DONE |
+| M01-T02 | Implementasi Komponen Dasar Reusable | M01 | Must Have | M01-T01 | DONE |
+| M01-T03 | Setup Navigasi GoRouter & Bottom Navigation Shell | M01 | Must Have | M01-T02 | DONE |
+| M01-T04 | Placeholder Screens & Widget Testing Shell | M01 | Must Have | M01-T03 | DONE |
+| M02-T01 | Setup Drift SQLite Database & Skema Tasks | M02 | Must Have | M00-T02 | DONE |
+| M02-T02 | Implementasi TaskRepository & Unit Tests | M02 | Must Have | M02-T01 | DONE |
+| M02-T03 | Implementasi Reactive Task Riverpod Providers | M02 | Must Have | M02-T02 | DONE |
+| M02-T04 | Implementasi UI Task List & Status Toggle | M02 | Must Have | M01-T03, M02-T03 | DONE |
+| M02-T05 | Implementasi UI Task Detail, Edit & Delete | M02 | Must Have | M02-T04 | DONE |
 | M03-T01 | Implementasi Deterministic Lazy Engine (Scoring Logic) | M03 | Must Have | M02-T02 | TODO |
 | M03-T02 | Implementasi Skema & Fitur Energy Check-in | M03 | Should Have | M02-T01 | TODO |
 | M03-T03 | Implementasi RecommendedTaskCard & Lazy Button UI | M03 | Must Have | M03-T01, M03-T02 | TODO |
