@@ -692,10 +692,667 @@ class TasksCompanion extends UpdateCompanion<Task> {
   }
 }
 
+class $EnergyStatesTable extends EnergyStates
+    with TableInfo<$EnergyStatesTable, EnergyState> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $EnergyStatesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _levelMeta = const VerificationMeta('level');
+  @override
+  late final GeneratedColumn<String> level = GeneratedColumn<String>(
+    'level',
+    aliasedName,
+    false,
+    check: () => level.isIn(['low', 'medium', 'high']),
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('medium'),
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<int> updatedAt = GeneratedColumn<int>(
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [id, level, updatedAt];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'energy_states';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<EnergyState> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('level')) {
+      context.handle(
+        _levelMeta,
+        level.isAcceptableOrUnknown(data['level']!, _levelMeta),
+      );
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_updatedAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  EnergyState map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return EnergyState(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      level: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}level'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}updated_at'],
+      )!,
+    );
+  }
+
+  @override
+  $EnergyStatesTable createAlias(String alias) {
+    return $EnergyStatesTable(attachedDatabase, alias);
+  }
+}
+
+class EnergyState extends DataClass implements Insertable<EnergyState> {
+  final int id;
+  final String level;
+  final int updatedAt;
+  const EnergyState({
+    required this.id,
+    required this.level,
+    required this.updatedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['level'] = Variable<String>(level);
+    map['updated_at'] = Variable<int>(updatedAt);
+    return map;
+  }
+
+  EnergyStatesCompanion toCompanion(bool nullToAbsent) {
+    return EnergyStatesCompanion(
+      id: Value(id),
+      level: Value(level),
+      updatedAt: Value(updatedAt),
+    );
+  }
+
+  factory EnergyState.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return EnergyState(
+      id: serializer.fromJson<int>(json['id']),
+      level: serializer.fromJson<String>(json['level']),
+      updatedAt: serializer.fromJson<int>(json['updatedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'level': serializer.toJson<String>(level),
+      'updatedAt': serializer.toJson<int>(updatedAt),
+    };
+  }
+
+  EnergyState copyWith({int? id, String? level, int? updatedAt}) => EnergyState(
+    id: id ?? this.id,
+    level: level ?? this.level,
+    updatedAt: updatedAt ?? this.updatedAt,
+  );
+  EnergyState copyWithCompanion(EnergyStatesCompanion data) {
+    return EnergyState(
+      id: data.id.present ? data.id.value : this.id,
+      level: data.level.present ? data.level.value : this.level,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('EnergyState(')
+          ..write('id: $id, ')
+          ..write('level: $level, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, level, updatedAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is EnergyState &&
+          other.id == this.id &&
+          other.level == this.level &&
+          other.updatedAt == this.updatedAt);
+}
+
+class EnergyStatesCompanion extends UpdateCompanion<EnergyState> {
+  final Value<int> id;
+  final Value<String> level;
+  final Value<int> updatedAt;
+  const EnergyStatesCompanion({
+    this.id = const Value.absent(),
+    this.level = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+  });
+  EnergyStatesCompanion.insert({
+    this.id = const Value.absent(),
+    this.level = const Value.absent(),
+    required int updatedAt,
+  }) : updatedAt = Value(updatedAt);
+  static Insertable<EnergyState> custom({
+    Expression<int>? id,
+    Expression<String>? level,
+    Expression<int>? updatedAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (level != null) 'level': level,
+      if (updatedAt != null) 'updated_at': updatedAt,
+    });
+  }
+
+  EnergyStatesCompanion copyWith({
+    Value<int>? id,
+    Value<String>? level,
+    Value<int>? updatedAt,
+  }) {
+    return EnergyStatesCompanion(
+      id: id ?? this.id,
+      level: level ?? this.level,
+      updatedAt: updatedAt ?? this.updatedAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (level.present) {
+      map['level'] = Variable<String>(level.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<int>(updatedAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('EnergyStatesCompanion(')
+          ..write('id: $id, ')
+          ..write('level: $level, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $RemindersTable extends Reminders
+    with TableInfo<$RemindersTable, Reminder> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $RemindersTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _taskIdMeta = const VerificationMeta('taskId');
+  @override
+  late final GeneratedColumn<String> taskId = GeneratedColumn<String>(
+    'task_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _notificationIdMeta = const VerificationMeta(
+    'notificationId',
+  );
+  @override
+  late final GeneratedColumn<int> notificationId = GeneratedColumn<int>(
+    'notification_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _scheduledAtMeta = const VerificationMeta(
+    'scheduledAt',
+  );
+  @override
+  late final GeneratedColumn<int> scheduledAt = GeneratedColumn<int>(
+    'scheduled_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _statusMeta = const VerificationMeta('status');
+  @override
+  late final GeneratedColumn<String> status = GeneratedColumn<String>(
+    'status',
+    aliasedName,
+    false,
+    check: () => status.isIn(['scheduled', 'cancelled', 'snoozed']),
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('scheduled'),
+  );
+  static const VerificationMeta _snoozeCountMeta = const VerificationMeta(
+    'snoozeCount',
+  );
+  @override
+  late final GeneratedColumn<int> snoozeCount = GeneratedColumn<int>(
+    'snooze_count',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    taskId,
+    notificationId,
+    scheduledAt,
+    status,
+    snoozeCount,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'reminders';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<Reminder> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('task_id')) {
+      context.handle(
+        _taskIdMeta,
+        taskId.isAcceptableOrUnknown(data['task_id']!, _taskIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_taskIdMeta);
+    }
+    if (data.containsKey('notification_id')) {
+      context.handle(
+        _notificationIdMeta,
+        notificationId.isAcceptableOrUnknown(
+          data['notification_id']!,
+          _notificationIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_notificationIdMeta);
+    }
+    if (data.containsKey('scheduled_at')) {
+      context.handle(
+        _scheduledAtMeta,
+        scheduledAt.isAcceptableOrUnknown(
+          data['scheduled_at']!,
+          _scheduledAtMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_scheduledAtMeta);
+    }
+    if (data.containsKey('status')) {
+      context.handle(
+        _statusMeta,
+        status.isAcceptableOrUnknown(data['status']!, _statusMeta),
+      );
+    }
+    if (data.containsKey('snooze_count')) {
+      context.handle(
+        _snoozeCountMeta,
+        snoozeCount.isAcceptableOrUnknown(
+          data['snooze_count']!,
+          _snoozeCountMeta,
+        ),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  Reminder map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return Reminder(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      taskId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}task_id'],
+      )!,
+      notificationId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}notification_id'],
+      )!,
+      scheduledAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}scheduled_at'],
+      )!,
+      status: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}status'],
+      )!,
+      snoozeCount: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}snooze_count'],
+      )!,
+    );
+  }
+
+  @override
+  $RemindersTable createAlias(String alias) {
+    return $RemindersTable(attachedDatabase, alias);
+  }
+}
+
+class Reminder extends DataClass implements Insertable<Reminder> {
+  final int id;
+  final String taskId;
+
+  /// Android notification id (deterministik dari task id).
+  final int notificationId;
+
+  /// Waktu notifikasi (epoch ms, UTC).
+  final int scheduledAt;
+  final String status;
+  final int snoozeCount;
+  const Reminder({
+    required this.id,
+    required this.taskId,
+    required this.notificationId,
+    required this.scheduledAt,
+    required this.status,
+    required this.snoozeCount,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['task_id'] = Variable<String>(taskId);
+    map['notification_id'] = Variable<int>(notificationId);
+    map['scheduled_at'] = Variable<int>(scheduledAt);
+    map['status'] = Variable<String>(status);
+    map['snooze_count'] = Variable<int>(snoozeCount);
+    return map;
+  }
+
+  RemindersCompanion toCompanion(bool nullToAbsent) {
+    return RemindersCompanion(
+      id: Value(id),
+      taskId: Value(taskId),
+      notificationId: Value(notificationId),
+      scheduledAt: Value(scheduledAt),
+      status: Value(status),
+      snoozeCount: Value(snoozeCount),
+    );
+  }
+
+  factory Reminder.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return Reminder(
+      id: serializer.fromJson<int>(json['id']),
+      taskId: serializer.fromJson<String>(json['taskId']),
+      notificationId: serializer.fromJson<int>(json['notificationId']),
+      scheduledAt: serializer.fromJson<int>(json['scheduledAt']),
+      status: serializer.fromJson<String>(json['status']),
+      snoozeCount: serializer.fromJson<int>(json['snoozeCount']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'taskId': serializer.toJson<String>(taskId),
+      'notificationId': serializer.toJson<int>(notificationId),
+      'scheduledAt': serializer.toJson<int>(scheduledAt),
+      'status': serializer.toJson<String>(status),
+      'snoozeCount': serializer.toJson<int>(snoozeCount),
+    };
+  }
+
+  Reminder copyWith({
+    int? id,
+    String? taskId,
+    int? notificationId,
+    int? scheduledAt,
+    String? status,
+    int? snoozeCount,
+  }) => Reminder(
+    id: id ?? this.id,
+    taskId: taskId ?? this.taskId,
+    notificationId: notificationId ?? this.notificationId,
+    scheduledAt: scheduledAt ?? this.scheduledAt,
+    status: status ?? this.status,
+    snoozeCount: snoozeCount ?? this.snoozeCount,
+  );
+  Reminder copyWithCompanion(RemindersCompanion data) {
+    return Reminder(
+      id: data.id.present ? data.id.value : this.id,
+      taskId: data.taskId.present ? data.taskId.value : this.taskId,
+      notificationId: data.notificationId.present
+          ? data.notificationId.value
+          : this.notificationId,
+      scheduledAt: data.scheduledAt.present
+          ? data.scheduledAt.value
+          : this.scheduledAt,
+      status: data.status.present ? data.status.value : this.status,
+      snoozeCount: data.snoozeCount.present
+          ? data.snoozeCount.value
+          : this.snoozeCount,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('Reminder(')
+          ..write('id: $id, ')
+          ..write('taskId: $taskId, ')
+          ..write('notificationId: $notificationId, ')
+          ..write('scheduledAt: $scheduledAt, ')
+          ..write('status: $status, ')
+          ..write('snoozeCount: $snoozeCount')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(id, taskId, notificationId, scheduledAt, status, snoozeCount);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is Reminder &&
+          other.id == this.id &&
+          other.taskId == this.taskId &&
+          other.notificationId == this.notificationId &&
+          other.scheduledAt == this.scheduledAt &&
+          other.status == this.status &&
+          other.snoozeCount == this.snoozeCount);
+}
+
+class RemindersCompanion extends UpdateCompanion<Reminder> {
+  final Value<int> id;
+  final Value<String> taskId;
+  final Value<int> notificationId;
+  final Value<int> scheduledAt;
+  final Value<String> status;
+  final Value<int> snoozeCount;
+  const RemindersCompanion({
+    this.id = const Value.absent(),
+    this.taskId = const Value.absent(),
+    this.notificationId = const Value.absent(),
+    this.scheduledAt = const Value.absent(),
+    this.status = const Value.absent(),
+    this.snoozeCount = const Value.absent(),
+  });
+  RemindersCompanion.insert({
+    this.id = const Value.absent(),
+    required String taskId,
+    required int notificationId,
+    required int scheduledAt,
+    this.status = const Value.absent(),
+    this.snoozeCount = const Value.absent(),
+  }) : taskId = Value(taskId),
+       notificationId = Value(notificationId),
+       scheduledAt = Value(scheduledAt);
+  static Insertable<Reminder> custom({
+    Expression<int>? id,
+    Expression<String>? taskId,
+    Expression<int>? notificationId,
+    Expression<int>? scheduledAt,
+    Expression<String>? status,
+    Expression<int>? snoozeCount,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (taskId != null) 'task_id': taskId,
+      if (notificationId != null) 'notification_id': notificationId,
+      if (scheduledAt != null) 'scheduled_at': scheduledAt,
+      if (status != null) 'status': status,
+      if (snoozeCount != null) 'snooze_count': snoozeCount,
+    });
+  }
+
+  RemindersCompanion copyWith({
+    Value<int>? id,
+    Value<String>? taskId,
+    Value<int>? notificationId,
+    Value<int>? scheduledAt,
+    Value<String>? status,
+    Value<int>? snoozeCount,
+  }) {
+    return RemindersCompanion(
+      id: id ?? this.id,
+      taskId: taskId ?? this.taskId,
+      notificationId: notificationId ?? this.notificationId,
+      scheduledAt: scheduledAt ?? this.scheduledAt,
+      status: status ?? this.status,
+      snoozeCount: snoozeCount ?? this.snoozeCount,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (taskId.present) {
+      map['task_id'] = Variable<String>(taskId.value);
+    }
+    if (notificationId.present) {
+      map['notification_id'] = Variable<int>(notificationId.value);
+    }
+    if (scheduledAt.present) {
+      map['scheduled_at'] = Variable<int>(scheduledAt.value);
+    }
+    if (status.present) {
+      map['status'] = Variable<String>(status.value);
+    }
+    if (snoozeCount.present) {
+      map['snooze_count'] = Variable<int>(snoozeCount.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('RemindersCompanion(')
+          ..write('id: $id, ')
+          ..write('taskId: $taskId, ')
+          ..write('notificationId: $notificationId, ')
+          ..write('scheduledAt: $scheduledAt, ')
+          ..write('status: $status, ')
+          ..write('snoozeCount: $snoozeCount')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
   late final $TasksTable tasks = $TasksTable(this);
+  late final $EnergyStatesTable energyStates = $EnergyStatesTable(this);
+  late final $RemindersTable reminders = $RemindersTable(this);
   late final Index tasksDeadline = Index(
     'tasks_deadline',
     'CREATE INDEX tasks_deadline ON tasks (deadline_at)',
@@ -714,6 +1371,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities => [
     tasks,
+    energyStates,
+    reminders,
     tasksDeadline,
     tasksStatus,
     tasksCreated,
@@ -1037,10 +1696,383 @@ typedef $$TasksTableProcessedTableManager =
       Task,
       PrefetchHooks Function()
     >;
+typedef $$EnergyStatesTableCreateCompanionBuilder =
+    EnergyStatesCompanion Function({
+      Value<int> id,
+      Value<String> level,
+      required int updatedAt,
+    });
+typedef $$EnergyStatesTableUpdateCompanionBuilder =
+    EnergyStatesCompanion Function({
+      Value<int> id,
+      Value<String> level,
+      Value<int> updatedAt,
+    });
+
+class $$EnergyStatesTableFilterComposer
+    extends Composer<_$AppDatabase, $EnergyStatesTable> {
+  $$EnergyStatesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get level => $composableBuilder(
+    column: $table.level,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$EnergyStatesTableOrderingComposer
+    extends Composer<_$AppDatabase, $EnergyStatesTable> {
+  $$EnergyStatesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get level => $composableBuilder(
+    column: $table.level,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$EnergyStatesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $EnergyStatesTable> {
+  $$EnergyStatesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get level =>
+      $composableBuilder(column: $table.level, builder: (column) => column);
+
+  GeneratedColumn<int> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+}
+
+class $$EnergyStatesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $EnergyStatesTable,
+          EnergyState,
+          $$EnergyStatesTableFilterComposer,
+          $$EnergyStatesTableOrderingComposer,
+          $$EnergyStatesTableAnnotationComposer,
+          $$EnergyStatesTableCreateCompanionBuilder,
+          $$EnergyStatesTableUpdateCompanionBuilder,
+          (
+            EnergyState,
+            BaseReferences<_$AppDatabase, $EnergyStatesTable, EnergyState>,
+          ),
+          EnergyState,
+          PrefetchHooks Function()
+        > {
+  $$EnergyStatesTableTableManager(_$AppDatabase db, $EnergyStatesTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$EnergyStatesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$EnergyStatesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$EnergyStatesTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String> level = const Value.absent(),
+                Value<int> updatedAt = const Value.absent(),
+              }) => EnergyStatesCompanion(
+                id: id,
+                level: level,
+                updatedAt: updatedAt,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String> level = const Value.absent(),
+                required int updatedAt,
+              }) => EnergyStatesCompanion.insert(
+                id: id,
+                level: level,
+                updatedAt: updatedAt,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$EnergyStatesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $EnergyStatesTable,
+      EnergyState,
+      $$EnergyStatesTableFilterComposer,
+      $$EnergyStatesTableOrderingComposer,
+      $$EnergyStatesTableAnnotationComposer,
+      $$EnergyStatesTableCreateCompanionBuilder,
+      $$EnergyStatesTableUpdateCompanionBuilder,
+      (
+        EnergyState,
+        BaseReferences<_$AppDatabase, $EnergyStatesTable, EnergyState>,
+      ),
+      EnergyState,
+      PrefetchHooks Function()
+    >;
+typedef $$RemindersTableCreateCompanionBuilder =
+    RemindersCompanion Function({
+      Value<int> id,
+      required String taskId,
+      required int notificationId,
+      required int scheduledAt,
+      Value<String> status,
+      Value<int> snoozeCount,
+    });
+typedef $$RemindersTableUpdateCompanionBuilder =
+    RemindersCompanion Function({
+      Value<int> id,
+      Value<String> taskId,
+      Value<int> notificationId,
+      Value<int> scheduledAt,
+      Value<String> status,
+      Value<int> snoozeCount,
+    });
+
+class $$RemindersTableFilterComposer
+    extends Composer<_$AppDatabase, $RemindersTable> {
+  $$RemindersTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get taskId => $composableBuilder(
+    column: $table.taskId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get notificationId => $composableBuilder(
+    column: $table.notificationId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get scheduledAt => $composableBuilder(
+    column: $table.scheduledAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get snoozeCount => $composableBuilder(
+    column: $table.snoozeCount,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$RemindersTableOrderingComposer
+    extends Composer<_$AppDatabase, $RemindersTable> {
+  $$RemindersTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get taskId => $composableBuilder(
+    column: $table.taskId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get notificationId => $composableBuilder(
+    column: $table.notificationId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get scheduledAt => $composableBuilder(
+    column: $table.scheduledAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get snoozeCount => $composableBuilder(
+    column: $table.snoozeCount,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$RemindersTableAnnotationComposer
+    extends Composer<_$AppDatabase, $RemindersTable> {
+  $$RemindersTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get taskId =>
+      $composableBuilder(column: $table.taskId, builder: (column) => column);
+
+  GeneratedColumn<int> get notificationId => $composableBuilder(
+    column: $table.notificationId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get scheduledAt => $composableBuilder(
+    column: $table.scheduledAt,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get status =>
+      $composableBuilder(column: $table.status, builder: (column) => column);
+
+  GeneratedColumn<int> get snoozeCount => $composableBuilder(
+    column: $table.snoozeCount,
+    builder: (column) => column,
+  );
+}
+
+class $$RemindersTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $RemindersTable,
+          Reminder,
+          $$RemindersTableFilterComposer,
+          $$RemindersTableOrderingComposer,
+          $$RemindersTableAnnotationComposer,
+          $$RemindersTableCreateCompanionBuilder,
+          $$RemindersTableUpdateCompanionBuilder,
+          (Reminder, BaseReferences<_$AppDatabase, $RemindersTable, Reminder>),
+          Reminder,
+          PrefetchHooks Function()
+        > {
+  $$RemindersTableTableManager(_$AppDatabase db, $RemindersTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$RemindersTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$RemindersTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$RemindersTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String> taskId = const Value.absent(),
+                Value<int> notificationId = const Value.absent(),
+                Value<int> scheduledAt = const Value.absent(),
+                Value<String> status = const Value.absent(),
+                Value<int> snoozeCount = const Value.absent(),
+              }) => RemindersCompanion(
+                id: id,
+                taskId: taskId,
+                notificationId: notificationId,
+                scheduledAt: scheduledAt,
+                status: status,
+                snoozeCount: snoozeCount,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required String taskId,
+                required int notificationId,
+                required int scheduledAt,
+                Value<String> status = const Value.absent(),
+                Value<int> snoozeCount = const Value.absent(),
+              }) => RemindersCompanion.insert(
+                id: id,
+                taskId: taskId,
+                notificationId: notificationId,
+                scheduledAt: scheduledAt,
+                status: status,
+                snoozeCount: snoozeCount,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$RemindersTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $RemindersTable,
+      Reminder,
+      $$RemindersTableFilterComposer,
+      $$RemindersTableOrderingComposer,
+      $$RemindersTableAnnotationComposer,
+      $$RemindersTableCreateCompanionBuilder,
+      $$RemindersTableUpdateCompanionBuilder,
+      (Reminder, BaseReferences<_$AppDatabase, $RemindersTable, Reminder>),
+      Reminder,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
   $AppDatabaseManager(this._db);
   $$TasksTableTableManager get tasks =>
       $$TasksTableTableManager(_db, _db.tasks);
+  $$EnergyStatesTableTableManager get energyStates =>
+      $$EnergyStatesTableTableManager(_db, _db.energyStates);
+  $$RemindersTableTableManager get reminders =>
+      $$RemindersTableTableManager(_db, _db.reminders);
 }

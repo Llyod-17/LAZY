@@ -55,12 +55,12 @@ Pengembangan LAZY menggunakan pendekatan **Vertical Slice Development** yang dip
 | M02-T03 | Implementasi Reactive Task Riverpod Providers | M02 | Must Have | M02-T02 | DONE |
 | M02-T04 | Implementasi UI Task List & Status Toggle | M02 | Must Have | M01-T03, M02-T03 | DONE |
 | M02-T05 | Implementasi UI Task Detail, Edit & Delete | M02 | Must Have | M02-T04 | DONE |
-| M03-T01 | Implementasi Deterministic Lazy Engine (Scoring Logic) | M03 | Must Have | M02-T02 | TODO |
-| M03-T02 | Implementasi Skema & Fitur Energy Check-in | M03 | Should Have | M02-T01 | TODO |
-| M03-T03 | Implementasi RecommendedTaskCard & Lazy Button UI | M03 | Must Have | M03-T01, M03-T02 | TODO |
-| M03-T04 | Integrasi Today Dashboard Screen | M03 | Must Have | M03-T03, M02-T04 | TODO |
-| M04-T01 | Setup flutter_local_notifications & Permission Handler | M04 | Must Have | M00-T02 | TODO |
-| M04-T02 | Implementasi Reminder Service, Scheduling & Snooze | M04 | Must Have | M04-T01, M02-T02 | TODO |
+| M03-T01 | Implementasi Deterministic Lazy Engine (Scoring Logic) | M03 | Must Have | M02-T02 | DONE |
+| M03-T02 | Implementasi Skema & Fitur Energy Check-in | M03 | Should Have | M02-T01 | DONE |
+| M03-T03 | Implementasi RecommendedTaskCard & Lazy Button UI | M03 | Must Have | M03-T01, M03-T02 | DONE |
+| M03-T04 | Integrasi Today Dashboard Screen | M03 | Must Have | M03-T03, M02-T04 | DONE |
+| M04-T01 | Setup flutter_local_notifications & Permission Handler | M04 | Must Have | M00-T02 | DONE |
+| M04-T02 | Implementasi Reminder Service, Scheduling & Snooze | M04 | Must Have | M04-T01, M02-T02 | DONE |
 | M04-T03 | Implementasi Skema Drift & Repository Thought Inbox | M04 | Must Have | M02-T01 | TODO |
 | M04-T04 | Implementasi UI Thought Inbox & Konversi ke Task | M04 | Must Have | M04-T03, M02-T05 | TODO |
 | M05-T01 | Setup Gin Web Server, Config & Logging | M05 | Must Have | M00-T03 | TODO |

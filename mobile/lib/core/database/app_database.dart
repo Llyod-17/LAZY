@@ -5,12 +5,14 @@ import 'package:drift/native.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
+import 'tables/energy_states_table.dart';
+import 'tables/reminders_table.dart';
 import 'tables/tasks_table.dart';
 
 part 'app_database.g.dart';
 
 /// Database utama LAZY — schema v1 (ARCHITECTURE.md §4.4).
-@DriftDatabase(tables: [Tasks])
+@DriftDatabase(tables: [Tasks, EnergyStates, Reminders])
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 

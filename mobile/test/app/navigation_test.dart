@@ -33,7 +33,7 @@ void main() {
   testWidgets('starts on Today tab', (tester) async {
     final db = await pumpApp(tester);
     expect(find.text('Today'), findsWidgets);
-    expect(find.text('Today Dashboard'), findsOneWidget);
+    expect(find.text('Mau mulai dari mana?'), findsOneWidget);
     await db.close();
   });
 
@@ -72,7 +72,7 @@ void main() {
 
     await tester.tap(find.byIcon(Icons.close));
     await tester.pumpAndSettle();
-    expect(find.text('Today Dashboard'), findsOneWidget);
+    expect(find.text('Mau mulai dari mana?'), findsOneWidget);
     await db.close();
   });
 

@@ -163,6 +163,15 @@ class TaskRepository {
     return q.watch();
   }
 
+  Future<void> startTask(String id) async {
+    await (_db.update(_db.tasks)..where((t) => t.id.equals(id))).write(
+      TasksCompanion(
+        status: const Value('in_progress'),
+        updatedAt: Value(DateTime.now().millisecondsSinceEpoch),
+      ),
+    );
+  }
+
   Future<void> completeTask(String id) async {
     final now = DateTime.now().millisecondsSinceEpoch;
     await (_db.update(_db.tasks)..where((t) => t.id.equals(id))).write(
