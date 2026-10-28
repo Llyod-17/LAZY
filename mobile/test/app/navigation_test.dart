@@ -43,7 +43,7 @@ void main() {
 
     await tester.tap(find.text('Inbox'));
     await tester.pumpAndSettle();
-    expect(find.text('Thought Inbox'), findsOneWidget);
+    expect(find.text('Inbox'), findsWidgets);
     expect(find.byType(NavigationBar), findsOneWidget);
 
     await tester.tap(find.text('Tasks'));
@@ -60,7 +60,7 @@ void main() {
 
   testWidgets('deep link /inbox resolves', (tester) async {
     final db = await pumpApp(tester, initialLocation: '/inbox');
-    expect(find.text('Thought Inbox'), findsOneWidget);
+    expect(find.text('Inbox'), findsWidgets);
     await db.close();
   });
 

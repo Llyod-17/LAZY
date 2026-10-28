@@ -61,18 +61,18 @@ Pengembangan LAZY menggunakan pendekatan **Vertical Slice Development** yang dip
 | M03-T04 | Integrasi Today Dashboard Screen | M03 | Must Have | M03-T03, M02-T04 | DONE |
 | M04-T01 | Setup flutter_local_notifications & Permission Handler | M04 | Must Have | M00-T02 | DONE |
 | M04-T02 | Implementasi Reminder Service, Scheduling & Snooze | M04 | Must Have | M04-T01, M02-T02 | DONE |
-| M04-T03 | Implementasi Skema Drift & Repository Thought Inbox | M04 | Must Have | M02-T01 | TODO |
-| M04-T04 | Implementasi UI Thought Inbox & Konversi ke Task | M04 | Must Have | M04-T03, M02-T05 | TODO |
-| M05-T01 | Setup Gin Web Server, Config & Logging | M05 | Must Have | M00-T03 | TODO |
-| M05-T02 | Implementasi DTO, Validation & Error Taxonomy | M05 | Must Have | M05-T01 | TODO |
-| M05-T03 | Implementasi 9Router OpenAI-Compatible Client | M05 | Must Have | M05-T02 | TODO |
-| M05-T04 | Implementasi Prompt Builder & Schema Extraction Validator | M05 | Must Have | M05-T03 | TODO |
-| M05-T05 | Implementasi Endpoint `/api/v1/ai/parse` & Handler Tests | M05 | Must Have | M05-T04 | TODO |
-| M06-T01 | Integrasi Speech-to-Text & Permission Audio Mobile | M06 | Must Have | M01-T03 | TODO |
-| M06-T02 | Implementasi Quick Capture & Voice Capture UI | M06 | Must Have | M06-T01, M02-T03 | TODO |
-| M06-T03 | Implementasi Mobile HTTP Client untuk Backend AI | M06 | Must Have | M05-T05 | TODO |
-| M06-T04 | Implementasi UI AI Task Preview & Confirmation Screen | M06 | Must Have | M06-T03, M02-T02 | TODO |
-| M06-T05 | Integrasi End-to-End AI Brain Dump & Offline Fallback | M06 | Must Have | M06-T04 | TODO |
+| M04-T03 | Implementasi Skema Drift & Repository Thought Inbox | M04 | Must Have | M02-T01 | DONE |
+| M04-T04 | Implementasi UI Thought Inbox & Konversi ke Task | M04 | Must Have | M04-T03, M02-T05 | DONE |
+| M05-T01 | Setup Gin Web Server, Config & Logging | M05 | Must Have | M00-T03 | DONE |
+| M05-T02 | Implementasi DTO, Validation & Error Taxonomy | M05 | Must Have | M05-T01 | DONE |
+| M05-T03 | Implementasi 9Router OpenAI-Compatible Client | M05 | Must Have | M05-T02 | DONE |
+| M05-T04 | Implementasi Prompt Builder & Schema Extraction Validator | M05 | Must Have | M05-T03 | DONE |
+| M05-T05 | Implementasi Endpoint `/api/v1/ai/parse` & Handler Tests | M05 | Must Have | M05-T04 | DONE |
+| M06-T01 | Integrasi Speech-to-Text & Permission Audio Mobile | M06 | Must Have | M01-T03 | DONE |
+| M06-T02 | Implementasi Quick Capture & Voice Capture UI | M06 | Must Have | M06-T01, M02-T03 | DONE |
+| M06-T03 | Implementasi Mobile HTTP Client untuk Backend AI | M06 | Must Have | M05-T05 | DONE |
+| M06-T04 | Implementasi UI AI Task Preview & Confirmation Screen | M06 | Must Have | M06-T03, M02-T02 | DONE |
+| M06-T05 | Integrasi End-to-End AI Brain Dump & Offline Fallback | M06 | Must Have | M06-T04 | DONE |
 | M07-T01 | Verifikasi Static Analysis, Format & Linting Seluruh Proyek | M07 | Must Have | M01 s/d M06 | TODO |
 | M07-T02 | Automated Unit & Integration Testing Suite | M07 | Must Have | M07-T01 | TODO |
 | M07-T03 | Konfigurasi Android Permissions & Release Signing Setup | M07 | Must Have | M07-T02 | TODO |

@@ -1347,12 +1347,438 @@ class RemindersCompanion extends UpdateCompanion<Reminder> {
   }
 }
 
+class $ThoughtInboxTable extends ThoughtInbox
+    with TableInfo<$ThoughtInboxTable, ThoughtInboxData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ThoughtInboxTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _titleMeta = const VerificationMeta('title');
+  @override
+  late final GeneratedColumn<String> title = GeneratedColumn<String>(
+    'title',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _contentMeta = const VerificationMeta(
+    'content',
+  );
+  @override
+  late final GeneratedColumn<String> content = GeneratedColumn<String>(
+    'content',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<int> createdAt = GeneratedColumn<int>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _convertedMeta = const VerificationMeta(
+    'converted',
+  );
+  @override
+  late final GeneratedColumn<bool> converted = GeneratedColumn<bool>(
+    'converted',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("converted" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  static const VerificationMeta _convertedToTaskIdMeta = const VerificationMeta(
+    'convertedToTaskId',
+  );
+  @override
+  late final GeneratedColumn<String> convertedToTaskId =
+      GeneratedColumn<String>(
+        'converted_to_task_id',
+        aliasedName,
+        true,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+        defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'REFERENCES tasks (id) ON DELETE SET NULL',
+        ),
+      );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    title,
+    content,
+    createdAt,
+    converted,
+    convertedToTaskId,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'thought_inbox';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<ThoughtInboxData> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('title')) {
+      context.handle(
+        _titleMeta,
+        title.isAcceptableOrUnknown(data['title']!, _titleMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_titleMeta);
+    }
+    if (data.containsKey('content')) {
+      context.handle(
+        _contentMeta,
+        content.isAcceptableOrUnknown(data['content']!, _contentMeta),
+      );
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    if (data.containsKey('converted')) {
+      context.handle(
+        _convertedMeta,
+        converted.isAcceptableOrUnknown(data['converted']!, _convertedMeta),
+      );
+    }
+    if (data.containsKey('converted_to_task_id')) {
+      context.handle(
+        _convertedToTaskIdMeta,
+        convertedToTaskId.isAcceptableOrUnknown(
+          data['converted_to_task_id']!,
+          _convertedToTaskIdMeta,
+        ),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  ThoughtInboxData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ThoughtInboxData(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      title: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}title'],
+      )!,
+      content: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}content'],
+      ),
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}created_at'],
+      )!,
+      converted: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}converted'],
+      )!,
+      convertedToTaskId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}converted_to_task_id'],
+      ),
+    );
+  }
+
+  @override
+  $ThoughtInboxTable createAlias(String alias) {
+    return $ThoughtInboxTable(attachedDatabase, alias);
+  }
+}
+
+class ThoughtInboxData extends DataClass
+    implements Insertable<ThoughtInboxData> {
+  final String id;
+  final String title;
+  final String? content;
+  final int createdAt;
+  final bool converted;
+  final String? convertedToTaskId;
+  const ThoughtInboxData({
+    required this.id,
+    required this.title,
+    this.content,
+    required this.createdAt,
+    required this.converted,
+    this.convertedToTaskId,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['title'] = Variable<String>(title);
+    if (!nullToAbsent || content != null) {
+      map['content'] = Variable<String>(content);
+    }
+    map['created_at'] = Variable<int>(createdAt);
+    map['converted'] = Variable<bool>(converted);
+    if (!nullToAbsent || convertedToTaskId != null) {
+      map['converted_to_task_id'] = Variable<String>(convertedToTaskId);
+    }
+    return map;
+  }
+
+  ThoughtInboxCompanion toCompanion(bool nullToAbsent) {
+    return ThoughtInboxCompanion(
+      id: Value(id),
+      title: Value(title),
+      content: content == null && nullToAbsent
+          ? const Value.absent()
+          : Value(content),
+      createdAt: Value(createdAt),
+      converted: Value(converted),
+      convertedToTaskId: convertedToTaskId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(convertedToTaskId),
+    );
+  }
+
+  factory ThoughtInboxData.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ThoughtInboxData(
+      id: serializer.fromJson<String>(json['id']),
+      title: serializer.fromJson<String>(json['title']),
+      content: serializer.fromJson<String?>(json['content']),
+      createdAt: serializer.fromJson<int>(json['createdAt']),
+      converted: serializer.fromJson<bool>(json['converted']),
+      convertedToTaskId: serializer.fromJson<String?>(
+        json['convertedToTaskId'],
+      ),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'title': serializer.toJson<String>(title),
+      'content': serializer.toJson<String?>(content),
+      'createdAt': serializer.toJson<int>(createdAt),
+      'converted': serializer.toJson<bool>(converted),
+      'convertedToTaskId': serializer.toJson<String?>(convertedToTaskId),
+    };
+  }
+
+  ThoughtInboxData copyWith({
+    String? id,
+    String? title,
+    Value<String?> content = const Value.absent(),
+    int? createdAt,
+    bool? converted,
+    Value<String?> convertedToTaskId = const Value.absent(),
+  }) => ThoughtInboxData(
+    id: id ?? this.id,
+    title: title ?? this.title,
+    content: content.present ? content.value : this.content,
+    createdAt: createdAt ?? this.createdAt,
+    converted: converted ?? this.converted,
+    convertedToTaskId: convertedToTaskId.present
+        ? convertedToTaskId.value
+        : this.convertedToTaskId,
+  );
+  ThoughtInboxData copyWithCompanion(ThoughtInboxCompanion data) {
+    return ThoughtInboxData(
+      id: data.id.present ? data.id.value : this.id,
+      title: data.title.present ? data.title.value : this.title,
+      content: data.content.present ? data.content.value : this.content,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      converted: data.converted.present ? data.converted.value : this.converted,
+      convertedToTaskId: data.convertedToTaskId.present
+          ? data.convertedToTaskId.value
+          : this.convertedToTaskId,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ThoughtInboxData(')
+          ..write('id: $id, ')
+          ..write('title: $title, ')
+          ..write('content: $content, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('converted: $converted, ')
+          ..write('convertedToTaskId: $convertedToTaskId')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(id, title, content, createdAt, converted, convertedToTaskId);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ThoughtInboxData &&
+          other.id == this.id &&
+          other.title == this.title &&
+          other.content == this.content &&
+          other.createdAt == this.createdAt &&
+          other.converted == this.converted &&
+          other.convertedToTaskId == this.convertedToTaskId);
+}
+
+class ThoughtInboxCompanion extends UpdateCompanion<ThoughtInboxData> {
+  final Value<String> id;
+  final Value<String> title;
+  final Value<String?> content;
+  final Value<int> createdAt;
+  final Value<bool> converted;
+  final Value<String?> convertedToTaskId;
+  final Value<int> rowid;
+  const ThoughtInboxCompanion({
+    this.id = const Value.absent(),
+    this.title = const Value.absent(),
+    this.content = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.converted = const Value.absent(),
+    this.convertedToTaskId = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  ThoughtInboxCompanion.insert({
+    required String id,
+    required String title,
+    this.content = const Value.absent(),
+    required int createdAt,
+    this.converted = const Value.absent(),
+    this.convertedToTaskId = const Value.absent(),
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       title = Value(title),
+       createdAt = Value(createdAt);
+  static Insertable<ThoughtInboxData> custom({
+    Expression<String>? id,
+    Expression<String>? title,
+    Expression<String>? content,
+    Expression<int>? createdAt,
+    Expression<bool>? converted,
+    Expression<String>? convertedToTaskId,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (title != null) 'title': title,
+      if (content != null) 'content': content,
+      if (createdAt != null) 'created_at': createdAt,
+      if (converted != null) 'converted': converted,
+      if (convertedToTaskId != null) 'converted_to_task_id': convertedToTaskId,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  ThoughtInboxCompanion copyWith({
+    Value<String>? id,
+    Value<String>? title,
+    Value<String?>? content,
+    Value<int>? createdAt,
+    Value<bool>? converted,
+    Value<String?>? convertedToTaskId,
+    Value<int>? rowid,
+  }) {
+    return ThoughtInboxCompanion(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      content: content ?? this.content,
+      createdAt: createdAt ?? this.createdAt,
+      converted: converted ?? this.converted,
+      convertedToTaskId: convertedToTaskId ?? this.convertedToTaskId,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (title.present) {
+      map['title'] = Variable<String>(title.value);
+    }
+    if (content.present) {
+      map['content'] = Variable<String>(content.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<int>(createdAt.value);
+    }
+    if (converted.present) {
+      map['converted'] = Variable<bool>(converted.value);
+    }
+    if (convertedToTaskId.present) {
+      map['converted_to_task_id'] = Variable<String>(convertedToTaskId.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ThoughtInboxCompanion(')
+          ..write('id: $id, ')
+          ..write('title: $title, ')
+          ..write('content: $content, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('converted: $converted, ')
+          ..write('convertedToTaskId: $convertedToTaskId, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
   late final $TasksTable tasks = $TasksTable(this);
   late final $EnergyStatesTable energyStates = $EnergyStatesTable(this);
   late final $RemindersTable reminders = $RemindersTable(this);
+  late final $ThoughtInboxTable thoughtInbox = $ThoughtInboxTable(this);
   late final Index tasksDeadline = Index(
     'tasks_deadline',
     'CREATE INDEX tasks_deadline ON tasks (deadline_at)',
@@ -1365,6 +1791,10 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     'tasks_created',
     'CREATE INDEX tasks_created ON tasks (created_at)',
   );
+  late final Index thoughtInboxCreated = Index(
+    'thought_inbox_created',
+    'CREATE INDEX thought_inbox_created ON thought_inbox (created_at)',
+  );
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -1373,10 +1803,22 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     tasks,
     energyStates,
     reminders,
+    thoughtInbox,
     tasksDeadline,
     tasksStatus,
     tasksCreated,
+    thoughtInboxCreated,
   ];
+  @override
+  StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules([
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'tasks',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('thought_inbox', kind: UpdateKind.update)],
+    ),
+  ]);
 }
 
 typedef $$TasksTableCreateCompanionBuilder =
@@ -1409,6 +1851,29 @@ typedef $$TasksTableUpdateCompanionBuilder =
       Value<int?> completedAt,
       Value<int> rowid,
     });
+
+final class $$TasksTableReferences
+    extends BaseReferences<_$AppDatabase, $TasksTable, Task> {
+  $$TasksTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static MultiTypedResultKey<$ThoughtInboxTable, List<ThoughtInboxData>>
+  _thoughtInboxRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.thoughtInbox,
+    aliasName: 'tasks__id__thought_inbox__converted_to_task_id',
+  );
+
+  $$ThoughtInboxTableProcessedTableManager get thoughtInboxRefs {
+    final manager = $$ThoughtInboxTableTableManager($_db, $_db.thoughtInbox)
+        .filter(
+          (f) => f.convertedToTaskId.id.sqlEquals($_itemColumn<String>('id')!),
+        );
+
+    final cache = $_typedResult.readTableOrNull(_thoughtInboxRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
 
 class $$TasksTableFilterComposer extends Composer<_$AppDatabase, $TasksTable> {
   $$TasksTableFilterComposer({
@@ -1472,6 +1937,31 @@ class $$TasksTableFilterComposer extends Composer<_$AppDatabase, $TasksTable> {
     column: $table.completedAt,
     builder: (column) => ColumnFilters(column),
   );
+
+  Expression<bool> thoughtInboxRefs(
+    Expression<bool> Function($$ThoughtInboxTableFilterComposer f) f,
+  ) {
+    final $$ThoughtInboxTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.thoughtInbox,
+      getReferencedColumn: (t) => t.convertedToTaskId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ThoughtInboxTableFilterComposer(
+            $db: $db,
+            $table: $db.thoughtInbox,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$TasksTableOrderingComposer
@@ -1590,6 +2080,31 @@ class $$TasksTableAnnotationComposer
     column: $table.completedAt,
     builder: (column) => column,
   );
+
+  Expression<T> thoughtInboxRefs<T extends Object>(
+    Expression<T> Function($$ThoughtInboxTableAnnotationComposer a) f,
+  ) {
+    final $$ThoughtInboxTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.thoughtInbox,
+      getReferencedColumn: (t) => t.convertedToTaskId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ThoughtInboxTableAnnotationComposer(
+            $db: $db,
+            $table: $db.thoughtInbox,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$TasksTableTableManager
@@ -1603,9 +2118,9 @@ class $$TasksTableTableManager
           $$TasksTableAnnotationComposer,
           $$TasksTableCreateCompanionBuilder,
           $$TasksTableUpdateCompanionBuilder,
-          (Task, BaseReferences<_$AppDatabase, $TasksTable, Task>),
+          (Task, $$TasksTableReferences),
           Task,
-          PrefetchHooks Function()
+          PrefetchHooks Function({bool thoughtInboxRefs})
         > {
   $$TasksTableTableManager(_$AppDatabase db, $TasksTable table)
     : super(
@@ -1675,9 +2190,42 @@ class $$TasksTableTableManager
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .map(
+                (e) =>
+                    (e.readTable(table), $$TasksTableReferences(db, table, e)),
+              )
               .toList(),
-          prefetchHooksCallback: null,
+          prefetchHooksCallback: ({thoughtInboxRefs = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [if (thoughtInboxRefs) db.thoughtInbox],
+              addJoins: null,
+              getPrefetchedDataCallback: (items) async {
+                return [
+                  if (thoughtInboxRefs)
+                    await $_getPrefetchedData<
+                      Task,
+                      $TasksTable,
+                      ThoughtInboxData
+                    >(
+                      currentTable: table,
+                      referencedTable: $$TasksTableReferences
+                          ._thoughtInboxRefsTable(db),
+                      managerFromTypedResult: (p0) => $$TasksTableReferences(
+                        db,
+                        table,
+                        p0,
+                      ).thoughtInboxRefs,
+                      referencedItemsForCurrentItem: (item, referencedItems) =>
+                          referencedItems.where(
+                            (e) => e.convertedToTaskId == item.id,
+                          ),
+                      typedResults: items,
+                    ),
+                ];
+              },
+            );
+          },
         ),
       );
 }
@@ -1692,9 +2240,9 @@ typedef $$TasksTableProcessedTableManager =
       $$TasksTableAnnotationComposer,
       $$TasksTableCreateCompanionBuilder,
       $$TasksTableUpdateCompanionBuilder,
-      (Task, BaseReferences<_$AppDatabase, $TasksTable, Task>),
+      (Task, $$TasksTableReferences),
       Task,
-      PrefetchHooks Function()
+      PrefetchHooks Function({bool thoughtInboxRefs})
     >;
 typedef $$EnergyStatesTableCreateCompanionBuilder =
     EnergyStatesCompanion Function({
@@ -2065,6 +2613,343 @@ typedef $$RemindersTableProcessedTableManager =
       Reminder,
       PrefetchHooks Function()
     >;
+typedef $$ThoughtInboxTableCreateCompanionBuilder =
+    ThoughtInboxCompanion Function({
+      required String id,
+      required String title,
+      Value<String?> content,
+      required int createdAt,
+      Value<bool> converted,
+      Value<String?> convertedToTaskId,
+      Value<int> rowid,
+    });
+typedef $$ThoughtInboxTableUpdateCompanionBuilder =
+    ThoughtInboxCompanion Function({
+      Value<String> id,
+      Value<String> title,
+      Value<String?> content,
+      Value<int> createdAt,
+      Value<bool> converted,
+      Value<String?> convertedToTaskId,
+      Value<int> rowid,
+    });
+
+final class $$ThoughtInboxTableReferences
+    extends
+        BaseReferences<_$AppDatabase, $ThoughtInboxTable, ThoughtInboxData> {
+  $$ThoughtInboxTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $TasksTable _convertedToTaskIdTable(_$AppDatabase db) =>
+      db.tasks.createAlias('thought_inbox__converted_to_task_id__tasks__id');
+
+  $$TasksTableProcessedTableManager? get convertedToTaskId {
+    final $_column = $_itemColumn<String>('converted_to_task_id');
+    if ($_column == null) return null;
+    final manager = $$TasksTableTableManager(
+      $_db,
+      $_db.tasks,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_convertedToTaskIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$ThoughtInboxTableFilterComposer
+    extends Composer<_$AppDatabase, $ThoughtInboxTable> {
+  $$ThoughtInboxTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get title => $composableBuilder(
+    column: $table.title,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get content => $composableBuilder(
+    column: $table.content,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get converted => $composableBuilder(
+    column: $table.converted,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$TasksTableFilterComposer get convertedToTaskId {
+    final $$TasksTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.convertedToTaskId,
+      referencedTable: $db.tasks,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TasksTableFilterComposer(
+            $db: $db,
+            $table: $db.tasks,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ThoughtInboxTableOrderingComposer
+    extends Composer<_$AppDatabase, $ThoughtInboxTable> {
+  $$ThoughtInboxTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get title => $composableBuilder(
+    column: $table.title,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get content => $composableBuilder(
+    column: $table.content,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get converted => $composableBuilder(
+    column: $table.converted,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$TasksTableOrderingComposer get convertedToTaskId {
+    final $$TasksTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.convertedToTaskId,
+      referencedTable: $db.tasks,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TasksTableOrderingComposer(
+            $db: $db,
+            $table: $db.tasks,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ThoughtInboxTableAnnotationComposer
+    extends Composer<_$AppDatabase, $ThoughtInboxTable> {
+  $$ThoughtInboxTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get title =>
+      $composableBuilder(column: $table.title, builder: (column) => column);
+
+  GeneratedColumn<String> get content =>
+      $composableBuilder(column: $table.content, builder: (column) => column);
+
+  GeneratedColumn<int> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<bool> get converted =>
+      $composableBuilder(column: $table.converted, builder: (column) => column);
+
+  $$TasksTableAnnotationComposer get convertedToTaskId {
+    final $$TasksTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.convertedToTaskId,
+      referencedTable: $db.tasks,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TasksTableAnnotationComposer(
+            $db: $db,
+            $table: $db.tasks,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ThoughtInboxTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $ThoughtInboxTable,
+          ThoughtInboxData,
+          $$ThoughtInboxTableFilterComposer,
+          $$ThoughtInboxTableOrderingComposer,
+          $$ThoughtInboxTableAnnotationComposer,
+          $$ThoughtInboxTableCreateCompanionBuilder,
+          $$ThoughtInboxTableUpdateCompanionBuilder,
+          (ThoughtInboxData, $$ThoughtInboxTableReferences),
+          ThoughtInboxData,
+          PrefetchHooks Function({bool convertedToTaskId})
+        > {
+  $$ThoughtInboxTableTableManager(_$AppDatabase db, $ThoughtInboxTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ThoughtInboxTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ThoughtInboxTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ThoughtInboxTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> title = const Value.absent(),
+                Value<String?> content = const Value.absent(),
+                Value<int> createdAt = const Value.absent(),
+                Value<bool> converted = const Value.absent(),
+                Value<String?> convertedToTaskId = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => ThoughtInboxCompanion(
+                id: id,
+                title: title,
+                content: content,
+                createdAt: createdAt,
+                converted: converted,
+                convertedToTaskId: convertedToTaskId,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String title,
+                Value<String?> content = const Value.absent(),
+                required int createdAt,
+                Value<bool> converted = const Value.absent(),
+                Value<String?> convertedToTaskId = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => ThoughtInboxCompanion.insert(
+                id: id,
+                title: title,
+                content: content,
+                createdAt: createdAt,
+                converted: converted,
+                convertedToTaskId: convertedToTaskId,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$ThoughtInboxTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({convertedToTaskId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (convertedToTaskId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.convertedToTaskId,
+                                referencedTable: $$ThoughtInboxTableReferences
+                                    ._convertedToTaskIdTable(db),
+                                referencedColumn: $$ThoughtInboxTableReferences
+                                    ._convertedToTaskIdTable(db)
+                                    .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$ThoughtInboxTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $ThoughtInboxTable,
+      ThoughtInboxData,
+      $$ThoughtInboxTableFilterComposer,
+      $$ThoughtInboxTableOrderingComposer,
+      $$ThoughtInboxTableAnnotationComposer,
+      $$ThoughtInboxTableCreateCompanionBuilder,
+      $$ThoughtInboxTableUpdateCompanionBuilder,
+      (ThoughtInboxData, $$ThoughtInboxTableReferences),
+      ThoughtInboxData,
+      PrefetchHooks Function({bool convertedToTaskId})
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -2075,4 +2960,6 @@ class $AppDatabaseManager {
       $$EnergyStatesTableTableManager(_db, _db.energyStates);
   $$RemindersTableTableManager get reminders =>
       $$RemindersTableTableManager(_db, _db.reminders);
+  $$ThoughtInboxTableTableManager get thoughtInbox =>
+      $$ThoughtInboxTableTableManager(_db, _db.thoughtInbox);
 }
