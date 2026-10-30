@@ -37,7 +37,9 @@ class TaskCard extends ConsumerWidget {
                 shape: const CircleBorder(),
                 onChanged: (_) {
                   final actions = ref.read(taskActionsProvider.notifier);
-                  completed ? actions.reopen(task.id) : actions.complete(task.id);
+                  completed
+                      ? actions.reopen(task.id)
+                      : actions.complete(task.id);
                 },
               ),
               Expanded(
@@ -47,8 +49,12 @@ class TaskCard extends ConsumerWidget {
                     Text(
                       task.title,
                       style: text.bodyLarge?.copyWith(
-                        decoration: completed ? TextDecoration.lineThrough : null,
-                        color: completed ? AppColors.textDisabled : AppColors.textPrimary,
+                        decoration: completed
+                            ? TextDecoration.lineThrough
+                            : null,
+                        color: completed
+                            ? AppColors.textDisabled
+                            : AppColors.textPrimary,
                       ),
                     ),
                     const SizedBox(height: AppSpacing.xs),
@@ -79,7 +85,10 @@ class _DeadlineLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final local = DateTime.fromMillisecondsSinceEpoch(ms, isUtc: true).toLocal();
+    final local = DateTime.fromMillisecondsSinceEpoch(
+      ms,
+      isUtc: true,
+    ).toLocal();
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
     final day = DateTime(local.year, local.month, local.day);

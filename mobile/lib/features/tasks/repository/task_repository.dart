@@ -29,18 +29,23 @@ class TaskRepository {
     final trimmed = _validateTitle(title);
     _validateDuration(estimatedDurationMin);
 
-    if (deadlineAt != null && await isDuplicate(title: trimmed, deadlineAt: deadlineAt)) {
+    if (deadlineAt != null &&
+        await isDuplicate(title: trimmed, deadlineAt: deadlineAt)) {
       throw TaskDuplicateException(
         'Task "$trimmed" sudah ada pada hari yang sama',
       );
     }
 
     final now = DateTime.now().millisecondsSinceEpoch;
-    return _db.into(_db.tasks).insertReturning(
+    return _db
+        .into(_db.tasks)
+        .insertReturning(
           TasksCompanion.insert(
             id: const Uuid().v4(),
             title: trimmed,
-            description: description == null ? const Value.absent() : Value(description),
+            description: description == null
+                ? const Value.absent()
+                : Value(description),
             priority: Value(priority),
             deadlineAt: deadlineAt == null
                 ? const Value.absent()
@@ -58,27 +63,39 @@ class TaskRepository {
   }
 
   /// Duplikat = judul (case-insensitive, trimmed) sama + deadline di hari lokal yang sama.
-  Future<bool> isDuplicate({required String title, required DateTime deadlineAt}) async {
+  Future<bool> isDuplicate({
+    required String title,
+    required DateTime deadlineAt,
+  }) async {
     final local = deadlineAt.toLocal();
     final dayStart = DateTime(local.year, local.month, local.day);
     final startMs = dayStart.toUtc().millisecondsSinceEpoch;
-    final endMs = dayStart.add(const Duration(days: 1)).toUtc().millisecondsSinceEpoch;
+    final endMs = dayStart
+        .add(const Duration(days: 1))
+        .toUtc()
+        .millisecondsSinceEpoch;
 
     final q = _db.select(_db.tasks)
-      ..where((t) =>
-          t.title.lower().equals(title.trim().toLowerCase()) &
-          t.deadlineAt.isBiggerOrEqualValue(startMs) &
-          t.deadlineAt.isSmallerThanValue(endMs));
+      ..where(
+        (t) =>
+            t.title.lower().equals(title.trim().toLowerCase()) &
+            t.deadlineAt.isBiggerOrEqualValue(startMs) &
+            t.deadlineAt.isSmallerThanValue(endMs),
+      );
     return (await q.get()).isNotEmpty;
   }
 
   Future<Task?> getTaskById(String id) {
-    return (_db.select(_db.tasks)..where((t) => t.id.equals(id))).getSingleOrNull();
+    return (_db.select(
+      _db.tasks,
+    )..where((t) => t.id.equals(id))).getSingleOrNull();
   }
 
   /// Stream satu task — reaktif terhadap edit/complete.
   Stream<Task?> watchTask(String id) {
-    return (_db.select(_db.tasks)..where((t) => t.id.equals(id))).watchSingleOrNull();
+    return (_db.select(
+      _db.tasks,
+    )..where((t) => t.id.equals(id))).watchSingleOrNull();
   }
 
   Future<void> updateTask(
@@ -96,7 +113,9 @@ class TaskRepository {
     await (_db.update(_db.tasks)..where((t) => t.id.equals(id))).write(
       TasksCompanion(
         title: title == null ? const Value.absent() : Value(title.trim()),
-        description: description == null ? const Value.absent() : Value(description),
+        description: description == null
+            ? const Value.absent()
+            : Value(description),
         priority: priority == null ? const Value.absent() : Value(priority),
         deadlineAt: deadlineAt == null
             ? const Value.absent()
@@ -122,10 +141,10 @@ class TaskRepository {
       ..where((t) => t.status.isNotIn(['completed']))
       ..orderBy([
         (t) => OrderingTerm(
-              expression: t.deadlineAt,
-              mode: OrderingMode.asc,
-              nulls: NullsOrder.last,
-            ),
+          expression: t.deadlineAt,
+          mode: OrderingMode.asc,
+          nulls: NullsOrder.last,
+        ),
         (t) => OrderingTerm(expression: t.createdAt, mode: OrderingMode.asc),
       ]);
     return q.watch();
@@ -136,13 +155,18 @@ class TaskRepository {
     final now = DateTime.now();
     final dayStart = DateTime(now.year, now.month, now.day);
     final startMs = dayStart.toUtc().millisecondsSinceEpoch;
-    final endMs = dayStart.add(const Duration(days: 1)).toUtc().millisecondsSinceEpoch;
+    final endMs = dayStart
+        .add(const Duration(days: 1))
+        .toUtc()
+        .millisecondsSinceEpoch;
 
     final q = _db.select(_db.tasks)
-      ..where((t) =>
-          t.status.isNotIn(['completed']) &
-          t.deadlineAt.isBiggerOrEqualValue(startMs) &
-          t.deadlineAt.isSmallerThanValue(endMs))
+      ..where(
+        (t) =>
+            t.status.isNotIn(['completed']) &
+            t.deadlineAt.isBiggerOrEqualValue(startMs) &
+            t.deadlineAt.isSmallerThanValue(endMs),
+      )
       ..orderBy([
         (t) => OrderingTerm(expression: t.deadlineAt, mode: OrderingMode.asc),
       ]);
@@ -155,10 +179,10 @@ class TaskRepository {
       ..where((t) => t.status.equals('completed'))
       ..orderBy([
         (t) => OrderingTerm(
-              expression: t.completedAt,
-              mode: OrderingMode.desc,
-              nulls: NullsOrder.last,
-            ),
+          expression: t.completedAt,
+          mode: OrderingMode.desc,
+          nulls: NullsOrder.last,
+        ),
       ]);
     return q.watch();
   }
@@ -204,7 +228,11 @@ class TaskRepository {
 
   void _validateDuration(int? minutes) {
     if (minutes != null && (minutes < 1 || minutes > 480)) {
-      throw ArgumentError.value(minutes, 'estimatedDurationMin', 'Durasi harus 1-480 menit');
+      throw ArgumentError.value(
+        minutes,
+        'estimatedDurationMin',
+        'Durasi harus 1-480 menit',
+      );
     }
   }
 }

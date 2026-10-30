@@ -56,19 +56,22 @@ void main() {
     );
   });
 
-  test('parseBrainDump throws AiNetworkException on connection error', () async {
-    dio.httpClientAdapter = _MockAdapter((options) {
-      throw DioException(
-        requestOptions: options,
-        type: DioExceptionType.connectionError,
-      );
-    });
+  test(
+    'parseBrainDump throws AiNetworkException on connection error',
+    () async {
+      dio.httpClientAdapter = _MockAdapter((options) {
+        throw DioException(
+          requestOptions: options,
+          type: DioExceptionType.connectionError,
+        );
+      });
 
-    expect(
-      () => client.parseBrainDump('Teks apa saja'),
-      throwsA(isA<AiNetworkException>()),
-    );
-  });
+      expect(
+        () => client.parseBrainDump('Teks apa saja'),
+        throwsA(isA<AiNetworkException>()),
+      );
+    },
+  );
 
   test('parseBrainDump throws AiSchemaException on HTTP 422', () async {
     dio.httpClientAdapter = _MockAdapter((options) {

@@ -26,15 +26,13 @@ class AppCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: selected ? AppColors.selected : AppColors.surface,
         borderRadius: AppRadius.card,
-        border: Border.all(color: selected ? AppColors.focus : AppColors.border),
+        border: Border.all(
+          color: selected ? AppColors.focus : AppColors.border,
+        ),
       ),
       child: child,
     );
     if (onTap == null) return card;
-    return InkWell(
-      onTap: onTap,
-      borderRadius: AppRadius.card,
-      child: card,
-    );
+    return InkWell(onTap: onTap, borderRadius: AppRadius.card, child: card);
   }
 }

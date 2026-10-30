@@ -22,17 +22,29 @@ void main() {
 
   setUp(() => db = AppDatabase.forTesting(NativeDatabase.memory()));
 
-  Future<Task> insertTask(String title, {String status = 'pending', int? deadlineAt}) {
+  Future<Task> insertTask(
+    String title, {
+    String status = 'pending',
+    int? deadlineAt,
+  }) {
     final now = DateTime.now().millisecondsSinceEpoch;
-    return db.into(db.tasks).insertReturning(TasksCompanion.insert(
-          id: title,
-          title: title,
-          status: Value(status),
-          deadlineAt: deadlineAt == null ? const Value.absent() : Value(deadlineAt),
-          createdAt: now,
-          updatedAt: now,
-          completedAt: status == 'completed' ? Value(now) : const Value.absent(),
-        ));
+    return db
+        .into(db.tasks)
+        .insertReturning(
+          TasksCompanion.insert(
+            id: title,
+            title: title,
+            status: Value(status),
+            deadlineAt: deadlineAt == null
+                ? const Value.absent()
+                : Value(deadlineAt),
+            createdAt: now,
+            updatedAt: now,
+            completedAt: status == 'completed'
+                ? Value(now)
+                : const Value.absent(),
+          ),
+        );
   }
 
   testWidgets('shows empty state when no tasks', (tester) async {
@@ -52,7 +64,9 @@ void main() {
     await db.close();
   });
 
-  testWidgets('completed tasks hidden on Semua, shown on Selesai', (tester) async {
+  testWidgets('completed tasks hidden on Semua, shown on Selesai', (
+    tester,
+  ) async {
     await insertTask('Aktif');
     await insertTask('Sudah done', status: 'completed');
     await pumpTasks(tester, db);
@@ -71,13 +85,17 @@ void main() {
   testWidgets('Tertunda filter shows only status pending', (tester) async {
     await insertTask('Pending biasa');
     final now = DateTime.now().millisecondsSinceEpoch;
-    await db.into(db.tasks).insert(TasksCompanion.insert(
-          id: 'ip',
-          title: 'Sedang dikerjakan',
-          status: const Value('in_progress'),
-          createdAt: now,
-          updatedAt: now,
-        ));
+    await db
+        .into(db.tasks)
+        .insert(
+          TasksCompanion.insert(
+            id: 'ip',
+            title: 'Sedang dikerjakan',
+            status: const Value('in_progress'),
+            createdAt: now,
+            updatedAt: now,
+          ),
+        );
     await pumpTasks(tester, db);
 
     await tester.tap(find.text('Tertunda'));
@@ -95,8 +113,9 @@ void main() {
     await tester.tap(find.byType(Checkbox).first);
     await tester.pumpAndSettle();
 
-    final task = await (db.select(db.tasks)..where((t) => t.id.equals('Centang saya')))
-        .getSingle();
+    final task = await (db.select(
+      db.tasks,
+    )..where((t) => t.id.equals('Centang saya'))).getSingle();
     expect(task.status, 'completed');
     expect(task.completedAt, isNotNull);
     expect(find.text('Centang saya'), findsNothing);
@@ -112,8 +131,9 @@ void main() {
     await tester.tap(find.byType(Checkbox).first);
     await tester.pumpAndSettle();
 
-    final task = await (db.select(db.tasks)..where((t) => t.id.equals('Buka lagi')))
-        .getSingle();
+    final task = await (db.select(
+      db.tasks,
+    )..where((t) => t.id.equals('Buka lagi'))).getSingle();
     expect(task.status, 'pending');
     expect(task.completedAt, isNull);
     await db.close();

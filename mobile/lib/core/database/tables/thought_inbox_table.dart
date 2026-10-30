@@ -24,5 +24,7 @@ class ThoughtInbox extends Table {
   Set<Column> get primaryKey => {id};
 
   @override
-  List<String> get customConstraints => ['CHECK (length(title) BETWEEN 1 AND 100)'];
+  List<String> get customConstraints => [
+    'CHECK (length(title) BETWEEN 1 AND 100)',
+  ];
 }

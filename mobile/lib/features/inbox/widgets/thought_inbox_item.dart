@@ -32,12 +32,7 @@ class ThoughtInboxItem extends StatelessWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(
-                  child: Text(
-                    thought.title,
-                    style: text.titleMedium,
-                  ),
-                ),
+                Expanded(child: Text(thought.title, style: text.titleMedium)),
                 IconButton(
                   icon: const Icon(Icons.delete_outline, size: 20),
                   color: AppColors.error,

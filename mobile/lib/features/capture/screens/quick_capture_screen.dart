@@ -54,9 +54,9 @@ class _QuickCaptureScreenState extends ConsumerState<QuickCaptureScreen> {
       onError: (errorMsg) {
         if (mounted) {
           setState(() => _isRecording = false);
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(errorMsg)),
-          );
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(errorMsg)));
         }
       },
     );
@@ -70,10 +70,9 @@ class _QuickCaptureScreenState extends ConsumerState<QuickCaptureScreen> {
     // Default deadline: akhir hari ini
     final endOfDay = DateTime(now.year, now.month, now.day, 23, 59);
 
-    await ref.read(taskActionsProvider.notifier).create(
-          title: text,
-          deadlineAt: endOfDay,
-        );
+    await ref
+        .read(taskActionsProvider.notifier)
+        .create(title: text, deadlineAt: endOfDay);
 
     if (mounted) {
       Navigator.of(context).maybePop();
@@ -87,9 +86,7 @@ class _QuickCaptureScreenState extends ConsumerState<QuickCaptureScreen> {
     final text = _textController.text.trim();
     if (text.isEmpty) return;
 
-    await ref.read(inboxActionsProvider.notifier).create(
-          title: text,
-        );
+    await ref.read(inboxActionsProvider.notifier).create(title: text);
 
     if (mounted) {
       Navigator.of(context).maybePop();
@@ -140,8 +137,11 @@ class _QuickCaptureScreenState extends ConsumerState<QuickCaptureScreen> {
                   ),
                   child: Row(
                     children: [
-                      const Icon(Icons.fiber_manual_record,
-                          size: 14, color: AppColors.error),
+                      const Icon(
+                        Icons.fiber_manual_record,
+                        size: 14,
+                        color: AppColors.error,
+                      ),
                       const SizedBox(width: AppSpacing.sm),
                       Text(
                         'Mendengarkan suara...',

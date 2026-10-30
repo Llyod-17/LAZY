@@ -65,11 +65,16 @@ class _TaskEditFormState extends ConsumerState<_TaskEditForm> {
     final t = widget.task;
     _title = TextEditingController(text: t.title);
     _description = TextEditingController(text: t.description ?? '');
-    _duration = TextEditingController(text: t.estimatedDurationMin?.toString() ?? '');
+    _duration = TextEditingController(
+      text: t.estimatedDurationMin?.toString() ?? '',
+    );
     _priority = t.priority;
     _deadline = t.deadlineAt == null
         ? null
-        : DateTime.fromMillisecondsSinceEpoch(t.deadlineAt!, isUtc: true).toLocal();
+        : DateTime.fromMillisecondsSinceEpoch(
+            t.deadlineAt!,
+            isUtc: true,
+          ).toLocal();
   }
 
   @override
@@ -96,13 +101,21 @@ class _TaskEditFormState extends ConsumerState<_TaskEditForm> {
     );
     if (time == null || !mounted) return;
     setState(() {
-      _deadline = DateTime(date.year, date.month, date.day, time.hour, time.minute);
+      _deadline = DateTime(
+        date.year,
+        date.month,
+        date.day,
+        time.hour,
+        time.minute,
+      );
     });
   }
 
   Future<void> _save() async {
     if (!_formKey.currentState!.validate()) return;
-    await ref.read(taskActionsProvider.notifier).update(
+    await ref
+        .read(taskActionsProvider.notifier)
+        .update(
           widget.task.id,
           title: _title.text,
           description: _description.text,
@@ -111,9 +124,9 @@ class _TaskEditFormState extends ConsumerState<_TaskEditForm> {
           estimatedDurationMin: int.tryParse(_duration.text),
         );
     if (!mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Perubahan tersimpan')),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(const SnackBar(content: Text('Perubahan tersimpan')));
   }
 
   Future<void> _confirmDelete() async {
@@ -180,7 +193,9 @@ class _TaskEditFormState extends ConsumerState<_TaskEditForm> {
               minLines: 2,
               maxLines: 4,
               textCapitalization: TextCapitalization.sentences,
-              decoration: const InputDecoration(labelText: 'Deskripsi (opsional)'),
+              decoration: const InputDecoration(
+                labelText: 'Deskripsi (opsional)',
+              ),
             ),
             const SizedBox(height: AppSpacing.base),
             DropdownButtonFormField<String>(

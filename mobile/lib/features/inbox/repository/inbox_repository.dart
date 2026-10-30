@@ -16,7 +16,9 @@ class InboxRepository {
     final trimmed = _validateTitle(title);
     final now = DateTime.now().millisecondsSinceEpoch;
 
-    return _db.into(_db.thoughtInbox).insertReturning(
+    return _db
+        .into(_db.thoughtInbox)
+        .insertReturning(
           ThoughtInboxCompanion.insert(
             id: const Uuid().v4(),
             title: trimmed,
@@ -45,8 +47,9 @@ class InboxRepository {
     await (_db.update(_db.thoughtInbox)..where((t) => t.id.equals(id))).write(
       ThoughtInboxCompanion(
         converted: const Value(true),
-        convertedToTaskId:
-            taskId == null ? const Value.absent() : Value(taskId),
+        convertedToTaskId: taskId == null
+            ? const Value.absent()
+            : Value(taskId),
       ),
     );
   }

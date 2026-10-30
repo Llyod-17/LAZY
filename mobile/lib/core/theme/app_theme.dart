@@ -8,28 +8,29 @@ import 'app_typography.dart';
 /// Theme LAZY (light mode only per ADR — DESIGN_SYSTEM.md §15).
 abstract final class AppTheme {
   static ThemeData light() {
-    final colorScheme = ColorScheme.fromSeed(
-      seedColor: AppColors.butterYellow,
-      brightness: Brightness.light,
-    ).copyWith(
-      primary: AppColors.primary,
-      onPrimary: AppColors.onPrimary,
-      primaryContainer: AppColors.selected,
-      onPrimaryContainer: AppColors.textPrimary,
-      secondary: AppColors.secondary,
-      onSecondary: AppColors.onSecondary,
-      secondaryContainer: AppColors.selected,
-      onSecondaryContainer: AppColors.textPrimary,
-      surface: AppColors.surface,
-      onSurface: AppColors.textPrimary,
-      onSurfaceVariant: AppColors.textSecondary,
-      surfaceContainerLowest: AppColors.surfaceElevated,
-      surfaceContainerLow: AppColors.surface,
-      error: AppColors.error,
-      onError: AppColors.surfaceElevated,
-      outline: AppColors.border,
-      outlineVariant: AppColors.divider,
-    );
+    final colorScheme =
+        ColorScheme.fromSeed(
+          seedColor: AppColors.butterYellow,
+          brightness: Brightness.light,
+        ).copyWith(
+          primary: AppColors.primary,
+          onPrimary: AppColors.onPrimary,
+          primaryContainer: AppColors.selected,
+          onPrimaryContainer: AppColors.textPrimary,
+          secondary: AppColors.secondary,
+          onSecondary: AppColors.onSecondary,
+          secondaryContainer: AppColors.selected,
+          onSecondaryContainer: AppColors.textPrimary,
+          surface: AppColors.surface,
+          onSurface: AppColors.textPrimary,
+          onSurfaceVariant: AppColors.textSecondary,
+          surfaceContainerLowest: AppColors.surfaceElevated,
+          surfaceContainerLow: AppColors.surface,
+          error: AppColors.error,
+          onError: AppColors.surfaceElevated,
+          outline: AppColors.border,
+          outlineVariant: AppColors.divider,
+        );
 
     return ThemeData(
       useMaterial3: true,

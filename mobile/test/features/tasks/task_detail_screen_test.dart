@@ -46,7 +46,10 @@ void main() {
     final task = await repo.createTask(title: 'Lama');
     await pumpDetail(tester, task.id);
 
-    await tester.enterText(find.byKey(const Key('task-title-field')), 'Judul baru');
+    await tester.enterText(
+      find.byKey(const Key('task-title-field')),
+      'Judul baru',
+    );
     await tester.enterText(find.byKey(const Key('task-duration-field')), '45');
     await tester.tap(find.byKey(const Key('task-save')));
     await tester.pumpAndSettle();

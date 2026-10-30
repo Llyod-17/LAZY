@@ -30,7 +30,11 @@ class RecommendedTaskCard extends ConsumerWidget {
         children: [
           Row(
             children: [
-              const Icon(Icons.auto_awesome, size: 18, color: AppColors.warning),
+              const Icon(
+                Icons.auto_awesome,
+                size: 18,
+                color: AppColors.warning,
+              ),
               const SizedBox(width: AppSpacing.sm),
               Text('Saran untukmu', style: text.labelLarge),
             ],
@@ -55,9 +59,13 @@ class RecommendedTaskCard extends ConsumerWidget {
                   label: 'Kerjakan',
                   icon: Icons.play_arrow,
                   onTap: () {
-                    ref.read(taskActionsProvider.notifier).start(recommendation.taskId);
+                    ref
+                        .read(taskActionsProvider.notifier)
+                        .start(recommendation.taskId);
                     ScaffoldMessenger.maybeOf(context)?.showSnackBar(
-                      const SnackBar(content: Text('Oke, kerjakan pelan-pelan ya')),
+                      const SnackBar(
+                        content: Text('Oke, kerjakan pelan-pelan ya'),
+                      ),
                     );
                   },
                 ),

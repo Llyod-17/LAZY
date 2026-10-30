@@ -31,8 +31,9 @@ void main() {
 
     expect(find.text('Inbox kamu bersih'), findsOneWidget);
     expect(
-        find.text('Ada ide lewat di kepala? Catat langsung di sini.'),
-        findsOneWidget);
+      find.text('Ada ide lewat di kepala? Catat langsung di sini.'),
+      findsOneWidget,
+    );
     await db.close();
   });
 
@@ -59,9 +60,9 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Ide buang'), findsNothing);
-    final row = await (db.select(db.thoughtInbox)
-          ..where((t) => t.id.equals(thought.id)))
-        .getSingleOrNull();
+    final row = await (db.select(
+      db.thoughtInbox,
+    )..where((t) => t.id.equals(thought.id))).getSingleOrNull();
     expect(row, isNull);
     await db.close();
   });
@@ -83,16 +84,16 @@ void main() {
 
     expect(find.text('Inbox kamu bersih'), findsOneWidget);
 
-    final task = await (db.select(db.tasks)
-          ..where((t) => t.title.equals('Bikin prototype LAZY')))
-        .getSingleOrNull();
+    final task = await (db.select(
+      db.tasks,
+    )..where((t) => t.title.equals('Bikin prototype LAZY'))).getSingleOrNull();
     expect(task, isNotNull);
     expect(task!.description, 'Pakai Flutter dan Riverpod');
     expect(task.deadlineAt, isNotNull);
 
-    final updatedThought = await (db.select(db.thoughtInbox)
-          ..where((t) => t.id.equals(thought.id)))
-        .getSingleOrNull();
+    final updatedThought = await (db.select(
+      db.thoughtInbox,
+    )..where((t) => t.id.equals(thought.id))).getSingleOrNull();
     expect(updatedThought!.converted, isTrue);
     expect(updatedThought.convertedToTaskId, task.id);
 

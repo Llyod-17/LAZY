@@ -32,8 +32,9 @@ void main() {
     await tester.pumpAndSettle();
   }
 
-  testWidgets('successful extraction navigates to preview screen',
-      (tester) async {
+  testWidgets('successful extraction navigates to preview screen', (
+    tester,
+  ) async {
     when(() => mockAiClient.parseBrainDump(any())).thenAnswer(
       (_) async => [
         const ExtractedTask(
@@ -63,39 +64,41 @@ void main() {
     await db.close();
   });
 
-  testWidgets('offline failure offers fallback dialog to save to Thought Inbox',
-      (tester) async {
-    when(() => mockAiClient.parseBrainDump(any())).thenThrow(
-      const AiNetworkException('Koneksi internet padam'),
-    );
+  testWidgets(
+    'offline failure offers fallback dialog to save to Thought Inbox',
+    (tester) async {
+      when(
+        () => mockAiClient.parseBrainDump(any()),
+      ).thenThrow(const AiNetworkException('Koneksi internet padam'));
 
-    await pumpBrainDump(tester);
+      await pumpBrainDump(tester);
 
-    const dumpText = 'Catatan ide penting saat sedang offline di jalan';
-    await tester.enterText(
-      find.byKey(const Key('braindump-textarea')),
-      dumpText,
-    );
-    await tester.pumpAndSettle();
+      const dumpText = 'Catatan ide penting saat sedang offline di jalan';
+      await tester.enterText(
+        find.byKey(const Key('braindump-textarea')),
+        dumpText,
+      );
+      await tester.pumpAndSettle();
 
-    await tester.tap(find.byKey(const Key('extract-ai-btn')));
-    await tester.pumpAndSettle();
+      await tester.tap(find.byKey(const Key('extract-ai-btn')));
+      await tester.pumpAndSettle();
 
-    // Verifikasi dialog fallback tampil
-    expect(find.text('Koneksi AI Sedang Terkendala'), findsOneWidget);
-    expect(find.textContaining('Koneksi internet padam'), findsOneWidget);
-    expect(find.byKey(const Key('fallback-save-inbox-btn')), findsOneWidget);
+      // Verifikasi dialog fallback tampil
+      expect(find.text('Koneksi AI Sedang Terkendala'), findsOneWidget);
+      expect(find.textContaining('Koneksi internet padam'), findsOneWidget);
+      expect(find.byKey(const Key('fallback-save-inbox-btn')), findsOneWidget);
 
-    // Tekan simpan ke Inbox
-    await tester.tap(find.byKey(const Key('fallback-save-inbox-btn')));
-    await tester.pumpAndSettle();
+      // Tekan simpan ke Inbox
+      await tester.tap(find.byKey(const Key('fallback-save-inbox-btn')));
+      await tester.pumpAndSettle();
 
-    // Verifikasi catatan tersimpan ke SQLite ThoughtInbox
-    final thoughts = await db.select(db.thoughtInbox).get();
-    expect(thoughts, hasLength(1));
-    expect(thoughts.first.content, dumpText);
-    expect(thoughts.first.converted, isFalse);
+      // Verifikasi catatan tersimpan ke SQLite ThoughtInbox
+      final thoughts = await db.select(db.thoughtInbox).get();
+      expect(thoughts, hasLength(1));
+      expect(thoughts.first.content, dumpText);
+      expect(thoughts.first.converted, isFalse);
 
-    await db.close();
-  });
+      await db.close();
+    },
+  );
 }

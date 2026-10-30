@@ -13,20 +13,23 @@ class EnergyRepository {
 
   /// Level tersimpan; default `medium` jika belum pernah check-in.
   Future<EnergyLevel> getEnergy() async {
-    final row = await (_db.select(_db.energyStates)
-          ..where((t) => t.id.equals(_singletonId)))
-        .getSingleOrNull();
+    final row = await (_db.select(
+      _db.energyStates,
+    )..where((t) => t.id.equals(_singletonId))).getSingleOrNull();
     return _parse(row?.level);
   }
 
   Stream<EnergyLevel> watchEnergy() {
-    return (_db.select(_db.energyStates)..where((t) => t.id.equals(_singletonId)))
+    return (_db.select(_db.energyStates)
+          ..where((t) => t.id.equals(_singletonId)))
         .watchSingleOrNull()
         .map((row) => _parse(row?.level));
   }
 
   Future<void> setEnergy(EnergyLevel level) {
-    return _db.into(_db.energyStates).insertOnConflictUpdate(
+    return _db
+        .into(_db.energyStates)
+        .insertOnConflictUpdate(
           EnergyStatesCompanion.insert(
             id: Value(_singletonId),
             level: Value(level.name),

@@ -10,8 +10,8 @@ final inboxRepositoryProvider = Provider<InboxRepository>((ref) {
 
 final unconvertedThoughtsStreamProvider =
     StreamProvider<List<ThoughtInboxData>>((ref) {
-  return ref.watch(inboxRepositoryProvider).watchAllUnconvertedThoughts();
-});
+      return ref.watch(inboxRepositoryProvider).watchAllUnconvertedThoughts();
+    });
 
 class InboxActionsNotifier extends Notifier<void> {
   @override
@@ -48,5 +48,6 @@ class InboxActionsNotifier extends Notifier<void> {
   }
 }
 
-final inboxActionsProvider =
-    NotifierProvider<InboxActionsNotifier, void>(InboxActionsNotifier.new);
+final inboxActionsProvider = NotifierProvider<InboxActionsNotifier, void>(
+  InboxActionsNotifier.new,
+);

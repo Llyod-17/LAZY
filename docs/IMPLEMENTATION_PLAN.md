@@ -73,10 +73,10 @@ Pengembangan LAZY menggunakan pendekatan **Vertical Slice Development** yang dip
 | M06-T03 | Implementasi Mobile HTTP Client untuk Backend AI | M06 | Must Have | M05-T05 | DONE |
 | M06-T04 | Implementasi UI AI Task Preview & Confirmation Screen | M06 | Must Have | M06-T03, M02-T02 | DONE |
 | M06-T05 | Integrasi End-to-End AI Brain Dump & Offline Fallback | M06 | Must Have | M06-T04 | DONE |
-| M07-T01 | Verifikasi Static Analysis, Format & Linting Seluruh Proyek | M07 | Must Have | M01 s/d M06 | TODO |
-| M07-T02 | Automated Unit & Integration Testing Suite | M07 | Must Have | M07-T01 | TODO |
-| M07-T03 | Konfigurasi Android Permissions & Release Signing Setup | M07 | Must Have | M07-T02 | TODO |
-| M07-T04 | Verifikasi Build Android APK Release & Release Notes | M07 | Must Have | M07-T03 | TODO |
+| M07-T01 | Verifikasi Static Analysis, Format & Linting Seluruh Proyek | M07 | Must Have | M01 s/d M06 | DONE |
+| M07-T02 | Automated Unit & Integration Testing Suite | M07 | Must Have | M07-T01 | DONE |
+| M07-T03 | Konfigurasi Android Permissions & Release Signing Setup | M07 | Must Have | M07-T02 | DONE |
+| M07-T04 | Verifikasi Build Android APK Release & Release Notes | M07 | Must Have | M07-T03 | DONE |
 
 ---
 
@@ -1185,14 +1185,14 @@ graph TD
 
 ## 11. Definisi Penyelesaian MVP (Definition of Done)
 
-- [ ] Seluruh task M00 s/d M07 berstatus `DONE`.
-- [ ] Fitur inti (F01–F08) berjalan sesuai Acceptance Criteria.
-- [ ] Manajemen tugas berfungsi 100% secara offline.
-- [ ] Lazy Engine memberikan rekomendasi deterministik dalam <10ms.
-- [ ] Pengingat lokal berdering dan dapat ditunda (snooze).
-- [ ] Ekstraksi Brain Dump mengekstrak kegiatan dan memerlukan konfirmasi user sebelum persistensi.
-- [ ] Seluruh unit test dan static analysis lulus (0 error, 0 warning fatal).
-- [ ] File APK Android release berhasil dibangun dan dapat dijalankan.
+- [x] Seluruh task M00 s/d M07 berstatus `DONE`.
+- [x] Fitur inti (F01–F08) berjalan sesuai Acceptance Criteria.
+- [x] Manajemen tugas berfungsi 100% secara offline.
+- [x] Lazy Engine memberikan rekomendasi deterministik dalam <10ms.
+- [x] Pengingat lokal berdering dan dapat ditunda (snooze).
+- [x] Ekstraksi Brain Dump mengekstrak kegiatan dan memerlukan konfirmasi user sebelum persistensi.
+- [x] Seluruh unit test dan static analysis lulus (0 error, 0 warning fatal).
+- [x] File APK Android release berhasil dibangun dan dapat dijalankan.
 
 ---
 

@@ -6,11 +6,7 @@ import 'app_button.dart';
 
 /// Error state dengan opsi coba lagi — DESIGN_SYSTEM.md §6.
 class ErrorStateView extends StatelessWidget {
-  const ErrorStateView({
-    super.key,
-    required this.message,
-    this.onRetry,
-  });
+  const ErrorStateView({super.key, required this.message, this.onRetry});
 
   final String message;
   final VoidCallback? onRetry;

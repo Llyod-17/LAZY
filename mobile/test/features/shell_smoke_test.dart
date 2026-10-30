@@ -29,10 +29,9 @@ void main() {
   const tabs = ['Today', 'Inbox', 'Tasks', 'Settings'];
 
   Future<void> tapTab(WidgetTester tester, String tab) async {
-    await tester.tap(find.descendant(
-      of: find.byType(NavigationBar),
-      matching: find.text(tab),
-    ));
+    await tester.tap(
+      find.descendant(of: find.byType(NavigationBar), matching: find.text(tab)),
+    );
     await tester.pumpAndSettle();
   }
 

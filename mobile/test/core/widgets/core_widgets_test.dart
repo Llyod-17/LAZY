@@ -34,7 +34,11 @@ void main() {
     testWidgets('secondary: outlined variant', (tester) async {
       await pumpButton(
         tester,
-        const AppButton(label: 'Batal', onTap: _noop, variant: AppButtonVariant.secondary),
+        const AppButton(
+          label: 'Batal',
+          onTap: _noop,
+          variant: AppButtonVariant.secondary,
+        ),
       );
       expect(find.byType(OutlinedButton), findsOneWidget);
     });
@@ -53,7 +57,9 @@ void main() {
   group('AppCard', () {
     testWidgets('renders surface color with border', (tester) async {
       await tester.pumpWidget(
-        const MaterialApp(home: Scaffold(body: AppCard(child: Text('isi')))),
+        const MaterialApp(
+          home: Scaffold(body: AppCard(child: Text('isi'))),
+        ),
       );
       final container = tester.widget<Container>(find.byType(Container).first);
       expect(container.decoration, isA<BoxDecoration>());
@@ -80,7 +86,9 @@ void main() {
   group('StatusBadge', () {
     testWidgets('renders label', (tester) async {
       await tester.pumpWidget(
-        const MaterialApp(home: Scaffold(body: StatusBadge(label: 'Proses'))),
+        const MaterialApp(
+          home: Scaffold(body: StatusBadge(label: 'Proses')),
+        ),
       );
       expect(find.text('Proses'), findsOneWidget);
     });

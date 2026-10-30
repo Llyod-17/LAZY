@@ -14,21 +14,24 @@ void main() {
 
   tearDown(() => db.close());
 
-  test('createThought persists and returns unconverted thought by default', () async {
-    final thought = await repo.createThought(
-      title: 'Bikin ide podcast',
-      content: 'Tentang productivity buat orang mager',
-    );
+  test(
+    'createThought persists and returns unconverted thought by default',
+    () async {
+      final thought = await repo.createThought(
+        title: 'Bikin ide podcast',
+        content: 'Tentang productivity buat orang mager',
+      );
 
-    expect(thought.title, 'Bikin ide podcast');
-    expect(thought.content, 'Tentang productivity buat orang mager');
-    expect(thought.converted, isFalse);
-    expect(thought.convertedToTaskId, isNull);
+      expect(thought.title, 'Bikin ide podcast');
+      expect(thought.content, 'Tentang productivity buat orang mager');
+      expect(thought.converted, isFalse);
+      expect(thought.convertedToTaskId, isNull);
 
-    final list = await repo.watchAllUnconvertedThoughts().first;
-    expect(list, hasLength(1));
-    expect(list.first.id, thought.id);
-  });
+      final list = await repo.watchAllUnconvertedThoughts().first;
+      expect(list, hasLength(1));
+      expect(list.first.id, thought.id);
+    },
+  );
 
   test('createThought validates title length and trimming', () async {
     expect(() => repo.createThought(title: '   '), throwsArgumentError);
@@ -38,21 +41,24 @@ void main() {
     expect(valid.title, 'Belajar Golang');
   });
 
-  test('watchAllUnconvertedThoughts filters out converted items and sorts desc', () async {
-    final t1 = await repo.createThought(title: 'Ide 1');
-    await Future<void>.delayed(const Duration(milliseconds: 10));
-    final t2 = await repo.createThought(title: 'Ide 2');
+  test(
+    'watchAllUnconvertedThoughts filters out converted items and sorts desc',
+    () async {
+      final t1 = await repo.createThought(title: 'Ide 1');
+      await Future<void>.delayed(const Duration(milliseconds: 10));
+      final t2 = await repo.createThought(title: 'Ide 2');
 
-    var list = await repo.watchAllUnconvertedThoughts().first;
-    expect(list, hasLength(2));
-    expect(list.first.id, t2.id); // newest first
+      var list = await repo.watchAllUnconvertedThoughts().first;
+      expect(list, hasLength(2));
+      expect(list.first.id, t2.id); // newest first
 
-    await repo.markAsConverted(t2.id, taskId: 'task-123');
+      await repo.markAsConverted(t2.id, taskId: 'task-123');
 
-    list = await repo.watchAllUnconvertedThoughts().first;
-    expect(list, hasLength(1));
-    expect(list.first.id, t1.id);
-  });
+      list = await repo.watchAllUnconvertedThoughts().first;
+      expect(list, hasLength(1));
+      expect(list.first.id, t1.id);
+    },
+  );
 
   test('deleteThought removes item from database', () async {
     final thought = await repo.createThought(title: 'Ide sekali pakai');

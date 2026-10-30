@@ -11,10 +11,16 @@ CandidateTask candidateFromTask(Task task) {
     title: task.title,
     status: task.status,
     priority: task.priority,
-    createdAt: DateTime.fromMillisecondsSinceEpoch(task.createdAt, isUtc: true).toLocal(),
+    createdAt: DateTime.fromMillisecondsSinceEpoch(
+      task.createdAt,
+      isUtc: true,
+    ).toLocal(),
     deadlineAt: task.deadlineAt == null
         ? null
-        : DateTime.fromMillisecondsSinceEpoch(task.deadlineAt!, isUtc: true).toLocal(),
+        : DateTime.fromMillisecondsSinceEpoch(
+            task.deadlineAt!,
+            isUtc: true,
+          ).toLocal(),
     estimatedDurationMin: task.estimatedDurationMin,
     energyAffinity: task.energyAffinity,
   );
@@ -54,7 +60,9 @@ class RecommendationNotifier extends Notifier<RecommendationState> {
   RecommendationState build() {
     final tasks = ref.watch(todayTasksStreamProvider).value ?? const <Task>[];
     final energy = ref.watch(currentEnergyProvider).value ?? EnergyLevel.medium;
-    return RecommendationState(ranked: rankTasks(tasks, energy, DateTime.now()));
+    return RecommendationState(
+      ranked: rankTasks(tasks, energy, DateTime.now()),
+    );
   }
 
   /// "Saran Lain": putar ke kandidat berikutnya.
@@ -67,5 +75,5 @@ class RecommendationNotifier extends Notifier<RecommendationState> {
 
 final recommendationProvider =
     NotifierProvider<RecommendationNotifier, RecommendationState>(
-  RecommendationNotifier.new,
-);
+      RecommendationNotifier.new,
+    );

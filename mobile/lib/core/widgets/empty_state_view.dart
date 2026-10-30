@@ -29,16 +29,14 @@ class EmptyStateView extends StatelessWidget {
           children: [
             Icon(icon, size: 48, color: AppColors.textDisabled),
             const SizedBox(height: AppSpacing.base),
-            Text(
-              title,
-              style: text.titleMedium,
-              textAlign: TextAlign.center,
-            ),
+            Text(title, style: text.titleMedium, textAlign: TextAlign.center),
             if (subtitle != null) ...[
               const SizedBox(height: AppSpacing.sm),
               Text(
                 subtitle!,
-                style: text.bodyMedium?.copyWith(color: AppColors.textSecondary),
+                style: text.bodyMedium?.copyWith(
+                  color: AppColors.textSecondary,
+                ),
                 textAlign: TextAlign.center,
               ),
             ],

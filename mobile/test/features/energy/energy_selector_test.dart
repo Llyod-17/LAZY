@@ -18,22 +18,27 @@ void main() {
       ProviderScope(
         overrides: [appDatabaseProvider.overrideWithValue(db)],
         child: const MaterialApp(
-          home: Scaffold(body: Padding(padding: EdgeInsets.all(16), child: EnergySelector())),
+          home: Scaffold(
+            body: Padding(padding: EdgeInsets.all(16), child: EnergySelector()),
+          ),
         ),
       ),
     );
     await tester.pumpAndSettle();
   }
 
-  testWidgets('renders three options with medium selected by default',
-      (tester) async {
+  testWidgets('renders three options with medium selected by default', (
+    tester,
+  ) async {
     await pumpSelector(tester);
 
     expect(find.text('Rendah'), findsOneWidget);
     expect(find.text('Sedang'), findsOneWidget);
     expect(find.text('Tinggi'), findsOneWidget);
 
-    final medium = tester.widget<ChoiceChip>(find.byKey(const Key('energy-medium')));
+    final medium = tester.widget<ChoiceChip>(
+      find.byKey(const Key('energy-medium')),
+    );
     expect(medium.selected, isTrue);
     await db.close();
   });
@@ -46,17 +51,23 @@ void main() {
 
     final row = await db.select(db.energyStates).getSingle();
     expect(row.level, EnergyLevel.high.name);
-    final high = tester.widget<ChoiceChip>(find.byKey(const Key('energy-high')));
+    final high = tester.widget<ChoiceChip>(
+      find.byKey(const Key('energy-high')),
+    );
     expect(high.selected, isTrue);
     await db.close();
   });
 
   testWidgets('reflects pre-existing stored energy', (tester) async {
-    await db.into(db.energyStates).insert(EnergyStatesCompanion.insert(
-          id: const Value(1),
-          level: const Value('low'),
-          updatedAt: DateTime.now().millisecondsSinceEpoch,
-        ));
+    await db
+        .into(db.energyStates)
+        .insert(
+          EnergyStatesCompanion.insert(
+            id: const Value(1),
+            level: const Value('low'),
+            updatedAt: DateTime.now().millisecondsSinceEpoch,
+          ),
+        );
     await pumpSelector(tester);
 
     final low = tester.widget<ChoiceChip>(find.byKey(const Key('energy-low')));

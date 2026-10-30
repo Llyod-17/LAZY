@@ -21,9 +21,9 @@ class Tasks extends Table {
   IntColumn get deadlineAt => integer().nullable()();
   IntColumn get estimatedDurationMin => integer().nullable()();
 
-  TextColumn get energyAffinity => text()
-      .nullable()
-      .check(energyAffinity.isNull() | energyAffinity.isIn(['low', 'medium', 'high']))();
+  TextColumn get energyAffinity => text().nullable().check(
+    energyAffinity.isNull() | energyAffinity.isIn(['low', 'medium', 'high']),
+  )();
   IntColumn get createdAt => integer()();
   IntColumn get updatedAt => integer()();
   IntColumn get completedAt => integer().nullable()();

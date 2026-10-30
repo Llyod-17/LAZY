@@ -18,7 +18,8 @@ class EnergySelector extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final current = ref.watch(currentEnergyProvider).value ?? EnergyLevel.medium;
+    final current =
+        ref.watch(currentEnergyProvider).value ?? EnergyLevel.medium;
 
     return Wrap(
       spacing: AppSpacing.sm,
@@ -31,13 +32,12 @@ class EnergySelector extends ConsumerWidget {
             showCheckmark: false,
             selectedColor: AppColors.selected,
             labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
-                  color: current == level
-                      ? AppColors.textPrimary
-                      : AppColors.textSecondary,
-                ),
-            onSelected: (_) => ref
-                .read(energyRepositoryProvider)
-                .setEnergy(level),
+              color: current == level
+                  ? AppColors.textPrimary
+                  : AppColors.textSecondary,
+            ),
+            onSelected: (_) =>
+                ref.read(energyRepositoryProvider).setEnergy(level),
           ),
       ],
     );

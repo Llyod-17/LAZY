@@ -64,7 +64,11 @@ void main() {
 
   test('watch stream emits live on mutation', () async {
     final actions = container.read(taskActionsProvider.notifier);
-    final sub = container.listen(allTasksStreamProvider, (_, _) {}, fireImmediately: true);
+    final sub = container.listen(
+      allTasksStreamProvider,
+      (_, _) {},
+      fireImmediately: true,
+    );
     addTearDown(sub.close);
 
     await actions.create(title: 'Live');

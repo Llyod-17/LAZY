@@ -35,8 +35,14 @@ void main() {
     });
 
     test('rejects estimated duration out of range', () {
-      expect(() => repo.createTask(title: 'a', estimatedDurationMin: 0), throwsArgumentError);
-      expect(() => repo.createTask(title: 'b', estimatedDurationMin: 481), throwsArgumentError);
+      expect(
+        () => repo.createTask(title: 'a', estimatedDurationMin: 0),
+        throwsArgumentError,
+      );
+      expect(
+        () => repo.createTask(title: 'b', estimatedDurationMin: 481),
+        throwsArgumentError,
+      );
     });
   });
 
@@ -112,20 +118,30 @@ void main() {
   });
 
   group('watchAllPendingTasks', () {
-    test('excludes completed, sorts deadline nulls last then createdAt', () async {
-      final t1 = await repo.createTask(title: 'tanpa deadline');
-      final t2 = await repo.createTask(
-          title: 'deadline jauh', deadlineAt: DateTime.now().add(const Duration(days: 5)));
-      final t3 = await repo.createTask(
-          title: 'deadline dekat', deadlineAt: DateTime.now().add(const Duration(hours: 2)));
-      final doneTask = await repo.createTask(title: 'sudah selesai', deadlineAt: DateTime.now());
-      await repo.completeTask(doneTask.id);
+    test(
+      'excludes completed, sorts deadline nulls last then createdAt',
+      () async {
+        final t1 = await repo.createTask(title: 'tanpa deadline');
+        final t2 = await repo.createTask(
+          title: 'deadline jauh',
+          deadlineAt: DateTime.now().add(const Duration(days: 5)),
+        );
+        final t3 = await repo.createTask(
+          title: 'deadline dekat',
+          deadlineAt: DateTime.now().add(const Duration(hours: 2)),
+        );
+        final doneTask = await repo.createTask(
+          title: 'sudah selesai',
+          deadlineAt: DateTime.now(),
+        );
+        await repo.completeTask(doneTask.id);
 
-      final list = await repo.watchAllPendingTasks().first;
-      final ids = list.map((t) => t.id).toList();
-      expect(ids, [t3.id, t2.id, t1.id]);
-      expect(ids, isNot(contains(doneTask.id)));
-    });
+        final list = await repo.watchAllPendingTasks().first;
+        final ids = list.map((t) => t.id).toList();
+        expect(ids, [t3.id, t2.id, t1.id]);
+        expect(ids, isNot(contains(doneTask.id)));
+      },
+    );
 
     test('emits after create', () async {
       final before = await repo.watchAllPendingTasks().first;
@@ -155,9 +171,18 @@ void main() {
       final tomorrow = today.add(const Duration(days: 1));
       final yesterday = today.subtract(const Duration(days: 1));
 
-      final inToday = await repo.createTask(title: 'hari ini', deadlineAt: today);
-      final inTomorrow = await repo.createTask(title: 'besok', deadlineAt: tomorrow);
-      final inYesterday = await repo.createTask(title: 'kemarin', deadlineAt: yesterday);
+      final inToday = await repo.createTask(
+        title: 'hari ini',
+        deadlineAt: today,
+      );
+      final inTomorrow = await repo.createTask(
+        title: 'besok',
+        deadlineAt: tomorrow,
+      );
+      final inYesterday = await repo.createTask(
+        title: 'kemarin',
+        deadlineAt: yesterday,
+      );
       final noDeadline = await repo.createTask(title: 'tanpa deadline');
 
       final list = await repo.watchTodayTasks().first;
@@ -170,7 +195,10 @@ void main() {
     test('completed task today excluded', () async {
       final now = DateTime.now();
       final today = DateTime(now.year, now.month, now.day, 15);
-      final t = await repo.createTask(title: 'nanti selesai', deadlineAt: today);
+      final t = await repo.createTask(
+        title: 'nanti selesai',
+        deadlineAt: today,
+      );
       await repo.completeTask(t.id);
       final list = await repo.watchTodayTasks().first;
       expect(list, isEmpty);

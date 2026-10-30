@@ -34,7 +34,8 @@ class InboxScreen extends ConsumerWidget {
                 left: AppSpacing.base,
                 right: AppSpacing.base,
                 top: AppSpacing.base,
-                bottom: MediaQuery.of(context).viewInsets.bottom + AppSpacing.xl,
+                bottom:
+                    MediaQuery.of(context).viewInsets.bottom + AppSpacing.xl,
               ),
               child: SingleChildScrollView(
                 child: Column(
@@ -170,10 +171,7 @@ class InboxScreen extends ConsumerWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text(
-                'Catat Ide Baru',
-                style: Theme.of(ctx).textTheme.titleLarge,
-              ),
+              Text('Catat Ide Baru', style: Theme.of(ctx).textTheme.titleLarge),
               const SizedBox(height: AppSpacing.md),
               TextField(
                 controller: titleController,
@@ -200,7 +198,9 @@ class InboxScreen extends ConsumerWidget {
                 onTap: () async {
                   final title = titleController.text.trim();
                   if (title.isEmpty) return;
-                  await ref.read(inboxActionsProvider.notifier).create(
+                  await ref
+                      .read(inboxActionsProvider.notifier)
+                      .create(
                         title: title,
                         content: contentController.text.trim(),
                       );

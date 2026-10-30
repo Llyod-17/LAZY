@@ -21,7 +21,8 @@ class TaskPreviewCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    final isUnscheduled = task.suggestedDate == null || task.suggestedDate!.isEmpty;
+    final isUnscheduled =
+        task.suggestedDate == null || task.suggestedDate!.isEmpty;
 
     return Padding(
       padding: const EdgeInsets.only(bottom: AppSpacing.md),
@@ -55,7 +56,10 @@ class TaskPreviewCard extends StatelessWidget {
                   ),
                 ),
                 IconButton(
-                  icon: const Icon(Icons.delete_outline, color: AppColors.error),
+                  icon: const Icon(
+                    Icons.delete_outline,
+                    color: AppColors.error,
+                  ),
                   tooltip: 'Hapus item',
                   onPressed: onDelete,
                 ),
@@ -82,7 +86,8 @@ class TaskPreviewCard extends StatelessWidget {
                     backgroundColor: AppColors.selected,
                     labelStyle: textTheme.labelSmall,
                   ),
-                  if (task.suggestedTime != null && task.suggestedTime!.isNotEmpty)
+                  if (task.suggestedTime != null &&
+                      task.suggestedTime!.isNotEmpty)
                     Chip(
                       avatar: const Icon(Icons.access_time, size: 14),
                       label: Text(task.suggestedTime!),

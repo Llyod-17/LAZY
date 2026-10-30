@@ -62,7 +62,8 @@ RecommendationResult? computeRecommendation(
 
   for (final task in eligible) {
     final score = _score(task, energy, now);
-    if (score > bestScore || (score == bestScore && best != null && _tieBreak(task, best) < 0)) {
+    if (score > bestScore ||
+        (score == bestScore && best != null && _tieBreak(task, best) < 0)) {
       bestScore = score;
       best = task;
     }
@@ -77,7 +78,8 @@ RecommendationResult? computeRecommendation(
 }
 
 double _score(CandidateTask t, EnergyLevel energy, DateTime now) {
-  final score = _wUrgency * _urgencyScore(t.deadlineAt, now) +
+  final score =
+      _wUrgency * _urgencyScore(t.deadlineAt, now) +
       _wPriority * _priorityScore(t.priority) +
       _wEnergy * _energyScore(t.energyAffinity, energy) +
       _wAge * _ageScore(t.createdAt, now) +
@@ -99,10 +101,10 @@ double _urgencyScore(DateTime? deadline, DateTime now) {
 }
 
 double _priorityScore(String priority) => switch (priority) {
-      'high' => 1.0,
-      'medium' => 0.6,
-      _ => 0.3,
-    };
+  'high' => 1.0,
+  'medium' => 0.6,
+  _ => 0.3,
+};
 
 double _energyScore(String? affinity, EnergyLevel current) {
   if (affinity == null) return 0.0;
@@ -142,8 +144,9 @@ int _tieBreak(CandidateTask a, CandidateTask b) {
 
 String _reason(CandidateTask t, EnergyLevel energy, DateTime now) {
   if (t.deadlineAt != null) {
-    final diffDays =
-        _startOfDay(t.deadlineAt!).difference(_startOfDay(now)).inDays;
+    final diffDays = _startOfDay(
+      t.deadlineAt!,
+    ).difference(_startOfDay(now)).inDays;
     if (diffDays < 0) return 'Sudah lewat deadline — kerjakan sekarang';
     if (diffDays == 0) return 'Deadline hari ini';
   }

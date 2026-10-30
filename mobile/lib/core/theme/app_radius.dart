@@ -10,6 +10,8 @@ abstract final class AppRadius {
   static const double pill = 999;
 
   static final BorderRadius card = BorderRadius.circular(md);
-  static final BorderRadius sheet = BorderRadius.vertical(top: Radius.circular(xl));
+  static final BorderRadius sheet = BorderRadius.vertical(
+    top: Radius.circular(xl),
+  );
   static final BorderRadius pillAll = BorderRadius.circular(pill);
 }

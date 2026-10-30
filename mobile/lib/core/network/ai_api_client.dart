@@ -27,16 +27,16 @@ class ExtractedTask {
   final String title;
   final String? suggestedDate; // YYYY-MM-DD
   final String? suggestedTime; // HH:MM
-  final String? priority;      // low, medium, high
+  final String? priority; // low, medium, high
   final String? reason;
 
   Map<String, dynamic> toJson() => {
-        'title': title,
-        'suggestedDate': suggestedDate,
-        'suggestedTime': suggestedTime,
-        'priority': priority,
-        'reason': reason,
-      };
+    'title': title,
+    'suggestedDate': suggestedDate,
+    'suggestedTime': suggestedTime,
+    'priority': priority,
+    'reason': reason,
+  };
 }
 
 /// Hierarki exception terstruktur untuk koneksi AI backend.
@@ -49,15 +49,22 @@ sealed class AiApiException implements Exception {
 }
 
 class AiNetworkException extends AiApiException {
-  const AiNetworkException([super.message = 'Tidak dapat terhubung ke server AI']);
+  const AiNetworkException([
+    super.message = 'Tidak dapat terhubung ke server AI',
+  ]);
 }
 
 class AiTimeoutException extends AiApiException {
-  const AiTimeoutException([super.message = 'Proses ekstraksi AI memakan waktu terlalu lama']);
+  const AiTimeoutException([
+    super.message = 'Proses ekstraksi AI memakan waktu terlalu lama',
+  ]);
 }
 
 class AiServerException extends AiApiException {
-  const AiServerException(this.statusCode, [super.message = 'Server AI mengalami kendala']);
+  const AiServerException(
+    this.statusCode, [
+    super.message = 'Server AI mengalami kendala',
+  ]);
   final int? statusCode;
 }
 
@@ -71,21 +78,24 @@ class AiApiClient {
     Dio? dio,
     String? baseUrl,
     Future<String> Function()? timezoneResolver,
-  })  : _dio = dio ??
-            Dio(
-              BaseOptions(
-                baseUrl: baseUrl ??
-                    const String.fromEnvironment(
-                      'AI_API_BASE_URL',
-                      defaultValue: 'http://10.0.2.2:8080',
-                    ),
-                connectTimeout: const Duration(seconds: 15),
-                receiveTimeout: const Duration(seconds: 15),
-                headers: {'Content-Type': 'application/json'},
-              ),
-            ),
-        _timezoneResolver = timezoneResolver ??
-            (() async => (await FlutterTimezone.getLocalTimezone()).identifier);
+  }) : _dio =
+           dio ??
+           Dio(
+             BaseOptions(
+               baseUrl:
+                   baseUrl ??
+                   const String.fromEnvironment(
+                     'AI_API_BASE_URL',
+                     defaultValue: 'http://10.0.2.2:8080',
+                   ),
+               connectTimeout: const Duration(seconds: 15),
+               receiveTimeout: const Duration(seconds: 15),
+               headers: {'Content-Type': 'application/json'},
+             ),
+           ),
+       _timezoneResolver =
+           timezoneResolver ??
+           (() async => (await FlutterTimezone.getLocalTimezone()).identifier);
 
   final Dio _dio;
   final Future<String> Function() _timezoneResolver;
@@ -108,16 +118,14 @@ class AiApiClient {
     try {
       final response = await _dio.post<Map<String, dynamic>>(
         '/api/v1/ai/parse',
-        data: {
-          'text': trimmed,
-          'timezone': timezone,
-          'nowMs': nowMs,
-        },
+        data: {'text': trimmed, 'timezone': timezone, 'nowMs': nowMs},
       );
 
       final data = response.data;
       if (data == null || data['items'] is! List) {
-        throw const AiSchemaException('Format respons server tidak memiliki daftar tugas');
+        throw const AiSchemaException(
+          'Format respons server tidak memiliki daftar tugas',
+        );
       }
 
       final items = data['items'] as List<dynamic>;
@@ -137,14 +145,22 @@ class AiApiClient {
 
       final status = e.response?.statusCode;
       if (status == 422) {
-        throw const AiSchemaException('Keluaran AI tidak memenuhi skema yang ditentukan');
+        throw const AiSchemaException(
+          'Keluaran AI tidak memenuhi skema yang ditentukan',
+        );
       }
 
       if (status != null && status >= 500) {
-        throw AiServerException(status, 'Server backend mengalami gangguan (HTTP $status)');
+        throw AiServerException(
+          status,
+          'Server backend mengalami gangguan (HTTP $status)',
+        );
       }
 
-      throw AiServerException(status, e.message ?? 'Terjadi kesalahan komunikasi API');
+      throw AiServerException(
+        status,
+        e.message ?? 'Terjadi kesalahan komunikasi API',
+      );
     }
   }
 }

@@ -12,10 +12,7 @@ import '../widgets/task_preview_card.dart';
 /// Layar konfirmasi hasil ekstraksi AI.
 /// Menjamin tidak ada data yang tersimpan ke SQLite sebelum tombol konfirmasi ditekan secara eksplisit.
 class BrainDumpPreviewScreen extends ConsumerStatefulWidget {
-  const BrainDumpPreviewScreen({
-    super.key,
-    required this.initialTasks,
-  });
+  const BrainDumpPreviewScreen({super.key, required this.initialTasks});
 
   final List<ExtractedTask> initialTasks;
 
@@ -84,10 +81,7 @@ class _BrainDumpPreviewScreenState
           tasksCreated++;
         } else {
           // Tanpa tanggal -> simpan sebagai ide di Thought Inbox
-          await inboxActions.create(
-            title: title,
-            content: item.reason,
-          );
+          await inboxActions.create(title: title, content: item.reason);
           thoughtsCreated++;
         }
       }
@@ -105,9 +99,9 @@ class _BrainDumpPreviewScreenState
     } catch (e) {
       if (mounted) {
         setState(() => _isSaving = false);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Gagal menyimpan: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Gagal menyimpan: $e')));
       }
     }
   }
@@ -180,7 +174,9 @@ class _BrainDumpPreviewScreenState
                     child: AppButton(
                       label: 'Batal',
                       variant: AppButtonVariant.secondary,
-                      onTap: _isSaving ? null : () => Navigator.of(context).maybePop(),
+                      onTap: _isSaving
+                          ? null
+                          : () => Navigator.of(context).maybePop(),
                     ),
                   ),
                   const SizedBox(width: AppSpacing.sm),
@@ -190,7 +186,9 @@ class _BrainDumpPreviewScreenState
                       label: _isSaving ? 'Menyimpan...' : 'Konfirmasi & Simpan',
                       icon: Icons.check,
                       variant: AppButtonVariant.primary,
-                      onTap: _isSaving || _tasks.isEmpty ? null : _confirmAndSave,
+                      onTap: _isSaving || _tasks.isEmpty
+                          ? null
+                          : _confirmAndSave,
                     ),
                   ),
                 ],

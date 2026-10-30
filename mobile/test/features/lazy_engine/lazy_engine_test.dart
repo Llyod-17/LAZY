@@ -41,67 +41,106 @@ void main() {
   });
 
   test('overdue beats due today', () {
-    final overdue = task('overdue',
-        deadlineAt: now.subtract(const Duration(days: 2)));
+    final overdue = task(
+      'overdue',
+      deadlineAt: now.subtract(const Duration(days: 2)),
+    );
     final today = task('today', deadlineAt: now);
-    final result =
-        computeRecommendation([today, overdue], EnergyLevel.medium, now);
+    final result = computeRecommendation(
+      [today, overdue],
+      EnergyLevel.medium,
+      now,
+    );
     expect(result!.taskId, 'overdue');
     expect(result.reason, contains('lewat deadline'));
   });
 
   test('due today beats tomorrow and reason is Deadline hari ini', () {
     final today = task('today', deadlineAt: now.add(const Duration(hours: 2)));
-    final tomorrow =
-        task('tomorrow', deadlineAt: now.add(const Duration(days: 1)));
-    final result =
-        computeRecommendation([tomorrow, today], EnergyLevel.medium, now);
+    final tomorrow = task(
+      'tomorrow',
+      deadlineAt: now.add(const Duration(days: 1)),
+    );
+    final result = computeRecommendation(
+      [tomorrow, today],
+      EnergyLevel.medium,
+      now,
+    );
     expect(result!.taskId, 'today');
     expect(result.reason, 'Deadline hari ini');
   });
 
   test('high priority beats low with identical deadline', () {
-    final high = task('high',
-        priority: 'high', deadlineAt: now.add(const Duration(days: 1)));
-    final low = task('low',
-        priority: 'low', deadlineAt: now.add(const Duration(days: 1)));
-    final result =
-        computeRecommendation([low, high], EnergyLevel.medium, now);
+    final high = task(
+      'high',
+      priority: 'high',
+      deadlineAt: now.add(const Duration(days: 1)),
+    );
+    final low = task(
+      'low',
+      priority: 'low',
+      deadlineAt: now.add(const Duration(days: 1)),
+    );
+    final result = computeRecommendation([low, high], EnergyLevel.medium, now);
     expect(result!.taskId, 'high');
   });
 
   test('energy match boosts task', () {
-    final match = task('match',
-        deadlineAt: now.add(const Duration(days: 1)),
-        energy: 'low',
-        createdAt: createdNew);
-    final noAffinity = task('none',
-        deadlineAt: now.add(const Duration(days: 1)), createdAt: createdOld);
-    final result =
-        computeRecommendation([noAffinity, match], EnergyLevel.low, now);
+    final match = task(
+      'match',
+      deadlineAt: now.add(const Duration(days: 1)),
+      energy: 'low',
+      createdAt: createdNew,
+    );
+    final noAffinity = task(
+      'none',
+      deadlineAt: now.add(const Duration(days: 1)),
+      createdAt: createdOld,
+    );
+    final result = computeRecommendation(
+      [noAffinity, match],
+      EnergyLevel.low,
+      now,
+    );
     expect(result!.taskId, 'match');
     expect(result.reason, 'Energi cocok + prioritas tinggi');
   });
 
   test('energy mismatch does not force a task', () {
-    final mismatch = task('mismatch',
-        deadlineAt: now.add(const Duration(days: 1)),
-        energy: 'high',
-        createdAt: createdNew);
-    final noAffinity = task('none',
-        deadlineAt: now.add(const Duration(days: 1)), createdAt: createdOld);
-    final result =
-        computeRecommendation([mismatch, noAffinity], EnergyLevel.low, now);
+    final mismatch = task(
+      'mismatch',
+      deadlineAt: now.add(const Duration(days: 1)),
+      energy: 'high',
+      createdAt: createdNew,
+    );
+    final noAffinity = task(
+      'none',
+      deadlineAt: now.add(const Duration(days: 1)),
+      createdAt: createdOld,
+    );
+    final result = computeRecommendation(
+      [mismatch, noAffinity],
+      EnergyLevel.low,
+      now,
+    );
     expect(result!.taskId, 'none');
   });
 
   test('in-progress bonus wins over identical pending task', () {
-    final inProgress = task('ip',
-        status: 'in_progress', deadlineAt: now.add(const Duration(days: 1)));
-    final pending =
-        task('pending', deadlineAt: now.add(const Duration(days: 1)));
-    final result =
-        computeRecommendation([pending, inProgress], EnergyLevel.medium, now);
+    final inProgress = task(
+      'ip',
+      status: 'in_progress',
+      deadlineAt: now.add(const Duration(days: 1)),
+    );
+    final pending = task(
+      'pending',
+      deadlineAt: now.add(const Duration(days: 1)),
+    );
+    final result = computeRecommendation(
+      [pending, inProgress],
+      EnergyLevel.medium,
+      now,
+    );
     expect(result!.taskId, 'ip');
     expect(result.reason, 'Lanjutkan yang sudah dimulai');
   });
@@ -116,28 +155,41 @@ void main() {
   test('tie-break: older createdAt wins for identical unscheduled tasks', () {
     final older = task('older', createdAt: createdOld);
     final newer = task('newer', createdAt: createdNew);
-    final result =
-        computeRecommendation([newer, older], EnergyLevel.medium, now);
+    final result = computeRecommendation(
+      [newer, older],
+      EnergyLevel.medium,
+      now,
+    );
     expect(result!.taskId, 'older');
     expect(result.reason, 'Sudah lama menunggu');
   });
 
   test('scheduled beats unscheduled when all else equal', () {
-    final scheduled =
-        task('scheduled', deadlineAt: now.add(const Duration(days: 10)));
+    final scheduled = task(
+      'scheduled',
+      deadlineAt: now.add(const Duration(days: 10)),
+    );
     final unscheduled = task('unscheduled');
-    final result =
-        computeRecommendation([unscheduled, scheduled], EnergyLevel.medium, now);
+    final result = computeRecommendation(
+      [unscheduled, scheduled],
+      EnergyLevel.medium,
+      now,
+    );
     expect(result!.taskId, 'scheduled');
   });
 
   test('low energy prefers short task', () {
-    final short = task('short',
-        deadlineAt: now.add(const Duration(days: 1)), duration: 10);
-    final long = task('long',
-        deadlineAt: now.add(const Duration(days: 1)), duration: 120);
-    final result =
-        computeRecommendation([long, short], EnergyLevel.low, now);
+    final short = task(
+      'short',
+      deadlineAt: now.add(const Duration(days: 1)),
+      duration: 10,
+    );
+    final long = task(
+      'long',
+      deadlineAt: now.add(const Duration(days: 1)),
+      duration: 120,
+    );
+    final result = computeRecommendation([long, short], EnergyLevel.low, now);
     expect(result!.taskId, 'short');
   });
 

@@ -95,7 +95,9 @@ class TaskActionsNotifier extends Notifier<void> {
       energyAffinity: energyAffinity,
     );
     final task = await _repo.getTaskById(id);
-    if (task != null) await _syncReminder(() => _reminders.scheduleForTask(task));
+    if (task != null) {
+      await _syncReminder(() => _reminders.scheduleForTask(task));
+    }
   }
 
   Future<void> delete(String id) async {
@@ -113,9 +115,12 @@ class TaskActionsNotifier extends Notifier<void> {
   Future<void> reopen(String id) async {
     await _repo.reopenTask(id);
     final task = await _repo.getTaskById(id);
-    if (task != null) await _syncReminder(() => _reminders.scheduleForTask(task));
+    if (task != null) {
+      await _syncReminder(() => _reminders.scheduleForTask(task));
+    }
   }
 }
 
-final taskActionsProvider =
-    NotifierProvider<TaskActionsNotifier, void>(TaskActionsNotifier.new);
+final taskActionsProvider = NotifierProvider<TaskActionsNotifier, void>(
+  TaskActionsNotifier.new,
+);

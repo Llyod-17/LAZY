@@ -16,10 +16,12 @@ void main() {
   });
 
   test('init success sets isAvailable to true', () async {
-    when(() => mockSpeech.initialize(
-          onError: any(named: 'onError'),
-          onStatus: any(named: 'onStatus'),
-        )).thenAnswer((_) async => true);
+    when(
+      () => mockSpeech.initialize(
+        onError: any(named: 'onError'),
+        onStatus: any(named: 'onStatus'),
+      ),
+    ).thenAnswer((_) async => true);
     when(() => mockSpeech.isAvailable).thenReturn(true);
     when(() => mockSpeech.isListening).thenReturn(false);
 
@@ -30,10 +32,12 @@ void main() {
   });
 
   test('init failure or denied sets isAvailable to false', () async {
-    when(() => mockSpeech.initialize(
-          onError: any(named: 'onError'),
-          onStatus: any(named: 'onStatus'),
-        )).thenAnswer((_) async => false);
+    when(
+      () => mockSpeech.initialize(
+        onError: any(named: 'onError'),
+        onStatus: any(named: 'onStatus'),
+      ),
+    ).thenAnswer((_) async => false);
     when(() => mockSpeech.isAvailable).thenReturn(false);
 
     final res = await service.init();
@@ -44,22 +48,24 @@ void main() {
   test('startListening triggers speech.listen with id_ID locale', () async {
     when(() => mockSpeech.isAvailable).thenReturn(true);
     when(() => mockSpeech.isListening).thenReturn(true);
-    when(() => mockSpeech.listen(
-          onResult: any(named: 'onResult'),
-          listenOptions: any(named: 'listenOptions'),
-        )).thenAnswer((_) async {});
+    when(
+      () => mockSpeech.listen(
+        onResult: any(named: 'onResult'),
+        listenOptions: any(named: 'listenOptions'),
+      ),
+    ).thenAnswer((_) async {});
 
     String recognized = '';
-    await service.startListening(
-      onResult: (text) => recognized = text,
-    );
+    await service.startListening(onResult: (text) => recognized = text);
 
     expect(service.isListening, isTrue);
 
-    final captured = verify(() => mockSpeech.listen(
-          onResult: captureAny(named: 'onResult'),
-          listenOptions: any(named: 'listenOptions'),
-        )).captured;
+    final captured = verify(
+      () => mockSpeech.listen(
+        onResult: captureAny(named: 'onResult'),
+        listenOptions: any(named: 'listenOptions'),
+      ),
+    ).captured;
 
     expect(captured, hasLength(1));
 
@@ -77,10 +83,12 @@ void main() {
 
   test('startListening calls onError when permission is denied', () async {
     when(() => mockSpeech.isAvailable).thenReturn(false);
-    when(() => mockSpeech.initialize(
-          onError: any(named: 'onError'),
-          onStatus: any(named: 'onStatus'),
-        )).thenAnswer((_) async => false);
+    when(
+      () => mockSpeech.initialize(
+        onError: any(named: 'onError'),
+        onStatus: any(named: 'onStatus'),
+      ),
+    ).thenAnswer((_) async => false);
 
     String? errorReceived;
     await service.startListening(
@@ -88,7 +96,10 @@ void main() {
       onError: (msg) => errorReceived = msg,
     );
 
-    expect(errorReceived, contains('Mikrofon tidak tersedia atau izin ditolak'));
+    expect(
+      errorReceived,
+      contains('Mikrofon tidak tersedia atau izin ditolak'),
+    );
   });
 
   test('stopListening calls speech.stop', () async {

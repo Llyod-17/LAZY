@@ -57,9 +57,9 @@ class _BrainDumpScreenState extends ConsumerState<BrainDumpScreen> {
       onError: (msg) {
         if (mounted) {
           setState(() => _isListening = false);
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(msg)),
-          );
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(msg)));
         }
       },
     );
@@ -118,10 +118,9 @@ class _BrainDumpScreenState extends ConsumerState<BrainDumpScreen> {
                 final shortTitle = text.length > 50
                     ? '${text.substring(0, 47)}...'
                     : text;
-                await ref.read(inboxActionsProvider.notifier).create(
-                      title: shortTitle,
-                      content: text,
-                    );
+                await ref
+                    .read(inboxActionsProvider.notifier)
+                    .create(title: shortTitle, content: text);
                 if (ctx.mounted) {
                   Navigator.of(ctx).pop();
                 }
@@ -129,7 +128,9 @@ class _BrainDumpScreenState extends ConsumerState<BrainDumpScreen> {
                   Navigator.of(context).maybePop();
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
-                      content: Text('Catatan berhasil disimpan ke Thought Inbox!'),
+                      content: Text(
+                        'Catatan berhasil disimpan ke Thought Inbox!',
+                      ),
                     ),
                   );
                 }
@@ -194,7 +195,8 @@ class _BrainDumpScreenState extends ConsumerState<BrainDumpScreen> {
                   expands: true,
                   textAlignVertical: TextAlignVertical.top,
                   decoration: InputDecoration(
-                    hintText: 'Misal: Besok jam 10 pagi mau meeting dengan tim, sorenya belanja bulanan dan jemput adik jam 5...',
+                    hintText:
+                        'Misal: Besok jam 10 pagi mau meeting dengan tim, sorenya belanja bulanan dan jemput adik jam 5...',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),

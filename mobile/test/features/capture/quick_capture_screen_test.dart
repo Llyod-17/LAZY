@@ -28,10 +28,14 @@ void main() {
     expect(find.byKey(const Key('quick-capture-input')), findsOneWidget);
     expect(find.text('Tulis tugas atau ide kamu di sini...'), findsOneWidget);
 
-    final taskBtn = tester.widget<AppButton>(find.byKey(const Key('save-as-task-btn')));
+    final taskBtn = tester.widget<AppButton>(
+      find.byKey(const Key('save-as-task-btn')),
+    );
     expect(taskBtn.onTap, isNull);
 
-    final inboxBtn = tester.widget<AppButton>(find.byKey(const Key('save-as-inbox-btn')));
+    final inboxBtn = tester.widget<AppButton>(
+      find.byKey(const Key('save-as-inbox-btn')),
+    );
     expect(inboxBtn.onTap, isNull);
     await db.close();
   });
@@ -39,18 +43,27 @@ void main() {
   testWidgets('typing enables save buttons', (tester) async {
     await pumpCapture(tester);
 
-    await tester.enterText(find.byKey(const Key('quick-capture-input')), 'Beli susu');
+    await tester.enterText(
+      find.byKey(const Key('quick-capture-input')),
+      'Beli susu',
+    );
     await tester.pumpAndSettle();
 
-    final taskBtn = tester.widget<AppButton>(find.byKey(const Key('save-as-task-btn')));
+    final taskBtn = tester.widget<AppButton>(
+      find.byKey(const Key('save-as-task-btn')),
+    );
     expect(taskBtn.onTap, isNotNull);
 
-    final inboxBtn = tester.widget<AppButton>(find.byKey(const Key('save-as-inbox-btn')));
+    final inboxBtn = tester.widget<AppButton>(
+      find.byKey(const Key('save-as-inbox-btn')),
+    );
     expect(inboxBtn.onTap, isNotNull);
     await db.close();
   });
 
-  testWidgets('save as task persists to database with deadline', (tester) async {
+  testWidgets('save as task persists to database with deadline', (
+    tester,
+  ) async {
     await pumpCapture(tester);
 
     await tester.enterText(

@@ -9,7 +9,9 @@ import '../widgets/task_card.dart';
 
 enum TaskListFilter { semua, tertunda, selesai }
 
-final taskListFilterProvider = StateProvider<TaskListFilter>((_) => TaskListFilter.semua);
+final taskListFilterProvider = StateProvider<TaskListFilter>(
+  (_) => TaskListFilter.semua,
+);
 
 /// Layar Tasks: filter Semua/Tertunda/Selesai + daftar TaskCard.
 class TasksScreen extends ConsumerWidget {
@@ -24,8 +26,10 @@ class TasksScreen extends ConsumerWidget {
     final Widget body = switch (filter) {
       TaskListFilter.semua => _TaskList(tasks: pending.value ?? const []),
       TaskListFilter.tertunda => _TaskList(
-          tasks: (pending.value ?? const []).where((t) => t.status == 'pending').toList(),
-        ),
+        tasks: (pending.value ?? const [])
+            .where((t) => t.status == 'pending')
+            .toList(),
+      ),
       TaskListFilter.selesai => _TaskList(tasks: completed.value ?? const []),
     };
 
@@ -38,9 +42,18 @@ class TasksScreen extends ConsumerWidget {
             child: SegmentedButton<TaskListFilter>(
               showSelectedIcon: false,
               segments: const [
-                ButtonSegment(value: TaskListFilter.semua, label: Text('Semua')),
-                ButtonSegment(value: TaskListFilter.tertunda, label: Text('Tertunda')),
-                ButtonSegment(value: TaskListFilter.selesai, label: Text('Selesai')),
+                ButtonSegment(
+                  value: TaskListFilter.semua,
+                  label: Text('Semua'),
+                ),
+                ButtonSegment(
+                  value: TaskListFilter.tertunda,
+                  label: Text('Tertunda'),
+                ),
+                ButtonSegment(
+                  value: TaskListFilter.selesai,
+                  label: Text('Selesai'),
+                ),
               ],
               selected: {filter},
               onSelectionChanged: (s) =>

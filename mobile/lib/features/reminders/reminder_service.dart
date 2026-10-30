@@ -18,8 +18,9 @@ class ReminderService {
     this._db,
     this._notifications, {
     Future<String> Function()? timezoneResolver,
-  }) : _timezoneResolver = timezoneResolver ??
-            (() async => (await FlutterTimezone.getLocalTimezone()).identifier);
+  }) : _timezoneResolver =
+           timezoneResolver ??
+           (() async => (await FlutterTimezone.getLocalTimezone()).identifier);
 
   final AppDatabase _db;
   final NotificationService _notifications;
@@ -49,7 +50,10 @@ class ReminderService {
     final deadlineMs = task.deadlineAt;
     if (deadlineMs == null || task.status == 'completed') return;
 
-    final deadline = DateTime.fromMillisecondsSinceEpoch(deadlineMs, isUtc: true).toLocal();
+    final deadline = DateTime.fromMillisecondsSinceEpoch(
+      deadlineMs,
+      isUtc: true,
+    ).toLocal();
     if (!deadline.isAfter(DateTime.now())) return;
 
     await init();
@@ -79,12 +83,14 @@ class ReminderService {
 
   /// Tunda +10 menit; reschedule notifikasi dan naikkan snooze_count.
   Future<Reminder?> snoozeForTask(String taskId) async {
-    final task = await (_db.select(_db.tasks)..where((t) => t.id.equals(taskId)))
-        .getSingleOrNull();
+    final task = await (_db.select(
+      _db.tasks,
+    )..where((t) => t.id.equals(taskId))).getSingleOrNull();
     if (task == null) return null;
 
-    final row = await (_db.select(_db.reminders)..where((r) => r.taskId.equals(taskId)))
-        .getSingleOrNull();
+    final row = await (_db.select(
+      _db.reminders,
+    )..where((r) => r.taskId.equals(taskId))).getSingleOrNull();
     final snoozeCount = (row?.snoozeCount ?? 0) + 1;
     final when = DateTime.now().add(snoozeDuration);
 
@@ -104,13 +110,15 @@ class ReminderService {
       status: 'snoozed',
       snoozeCount: snoozeCount,
     );
-    return (_db.select(_db.reminders)..where((r) => r.taskId.equals(taskId)))
-        .getSingle();
+    return (_db.select(
+      _db.reminders,
+    )..where((r) => r.taskId.equals(taskId))).getSingle();
   }
 
   Future<Reminder?> getForTask(String taskId) {
-    return (_db.select(_db.reminders)..where((r) => r.taskId.equals(taskId)))
-        .getSingleOrNull();
+    return (_db.select(
+      _db.reminders,
+    )..where((r) => r.taskId.equals(taskId))).getSingleOrNull();
   }
 
   Future<void> _replaceRow({
@@ -120,8 +128,12 @@ class ReminderService {
     required String status,
     required int snoozeCount,
   }) async {
-    await (_db.delete(_db.reminders)..where((r) => r.taskId.equals(taskId))).go();
-    await _db.into(_db.reminders).insert(
+    await (_db.delete(
+      _db.reminders,
+    )..where((r) => r.taskId.equals(taskId))).go();
+    await _db
+        .into(_db.reminders)
+        .insert(
           RemindersCompanion.insert(
             taskId: taskId,
             notificationId: notificationId,

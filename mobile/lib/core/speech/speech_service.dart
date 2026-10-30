@@ -61,9 +61,7 @@ class SpeechService {
         onResult: (SpeechRecognitionResult result) {
           onResult(result.recognizedWords);
         },
-        listenOptions: SpeechListenOptions(
-          localeId: localeId ?? 'id_ID',
-        ),
+        listenOptions: SpeechListenOptions(localeId: localeId ?? 'id_ID'),
       );
     } catch (e) {
       if (onError != null) {

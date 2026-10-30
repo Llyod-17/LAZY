@@ -102,9 +102,7 @@ void main() {
     var taps = 0;
     await tester.pumpWidget(
       MaterialApp(
-        home: Scaffold(
-          body: LazyButton(onPressed: () => taps++),
-        ),
+        home: Scaffold(body: LazyButton(onPressed: () => taps++)),
       ),
     );
 

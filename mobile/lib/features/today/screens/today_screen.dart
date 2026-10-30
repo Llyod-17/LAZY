@@ -11,8 +11,29 @@ import '../providers/recommendation_provider.dart';
 import '../widgets/lazy_button.dart';
 import '../widgets/recommended_task_card.dart';
 
-const _weekdays = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'];
-const _months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+const _weekdays = [
+  'Senin',
+  'Selasa',
+  'Rabu',
+  'Kamis',
+  'Jumat',
+  'Sabtu',
+  'Minggu',
+];
+const _months = [
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'Mei',
+  'Jun',
+  'Jul',
+  'Agu',
+  'Sep',
+  'Okt',
+  'Nov',
+  'Des',
+];
 
 /// ponytail: nama hari/bulan hardcode supaya tak perlu locale data intl;
 /// ganti DateFormat('EEEE, d MMM', 'id_ID') kalau app jadi multi-bahasa.
@@ -34,7 +55,9 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
     final recommendation = ref.read(recommendationProvider).current;
     if (recommendation == null) {
       ScaffoldMessenger.maybeOf(context)?.showSnackBar(
-        const SnackBar(content: Text('Belum ada kegiatan hari ini. Santai dulu ya')),
+        const SnackBar(
+          content: Text('Belum ada kegiatan hari ini. Santai dulu ya'),
+        ),
       );
       return;
     }

@@ -12,7 +12,7 @@ const lazyReminderChannel = AndroidNotificationChannel(
 /// Wrapper tipis plugin notifikasi lokal; plugin bisa di-inject untuk test.
 class NotificationService {
   NotificationService({FlutterLocalNotificationsPlugin? plugin})
-      : _plugin = plugin ?? FlutterLocalNotificationsPlugin();
+    : _plugin = plugin ?? FlutterLocalNotificationsPlugin();
 
   final FlutterLocalNotificationsPlugin _plugin;
   bool _initialized = false;
@@ -62,7 +62,9 @@ class NotificationService {
   }
 
   AndroidFlutterLocalNotificationsPlugin? get _android {
-    return _plugin.resolvePlatformSpecificImplementation<
-        AndroidFlutterLocalNotificationsPlugin>();
+    return _plugin
+        .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin
+        >();
   }
 }

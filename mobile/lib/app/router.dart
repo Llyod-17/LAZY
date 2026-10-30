@@ -14,71 +14,77 @@ import 'shell.dart';
 final routerProvider = Provider<GoRouter>((ref) => createRouter());
 
 GoRouter createRouter({String initialLocation = '/'}) => GoRouter(
-      initialLocation: initialLocation,
-      routes: [
-        StatefulShellRoute.indexedStack(
-          builder: (context, state, navigationShell) =>
-              AppShell(navigationShell: navigationShell),
-          branches: [
-            StatefulShellBranch(routes: [
-              GoRoute(
-                path: '/',
-                builder: (context, state) => const TodayScreen(),
-              ),
-            ]),
-            StatefulShellBranch(routes: [
-              GoRoute(
-                path: '/inbox',
-                builder: (context, state) => const InboxScreen(),
-              ),
-            ]),
-            StatefulShellBranch(routes: [
-              GoRoute(
-                path: '/tasks',
-                builder: (context, state) => const TasksScreen(),
-              ),
-            ]),
-            StatefulShellBranch(routes: [
-              GoRoute(
-                path: '/settings',
-                builder: (context, state) => const SettingsScreen(),
-              ),
-            ]),
+  initialLocation: initialLocation,
+  routes: [
+    StatefulShellRoute.indexedStack(
+      builder: (context, state, navigationShell) =>
+          AppShell(navigationShell: navigationShell),
+      branches: [
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: '/',
+              builder: (context, state) => const TodayScreen(),
+            ),
           ],
         ),
-        GoRoute(
-          path: '/capture',
-          pageBuilder: (context, state) =>
-              modalPage(const QuickCaptureScreen()),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: '/inbox',
+              builder: (context, state) => const InboxScreen(),
+            ),
+          ],
         ),
-        GoRoute(
-          path: '/braindump',
-          pageBuilder: (context, state) =>
-              modalPage(const BrainDumpScreen()),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: '/tasks',
+              builder: (context, state) => const TasksScreen(),
+            ),
+          ],
         ),
-        GoRoute(
-          path: '/task/:id',
-          pageBuilder: (context, state) => modalPage(
-            TaskDetailScreen(taskId: state.pathParameters['id']!),
-          ),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: '/settings',
+              builder: (context, state) => const SettingsScreen(),
+            ),
+          ],
         ),
       ],
-    );
+    ),
+    GoRoute(
+      path: '/capture',
+      pageBuilder: (context, state) => modalPage(const QuickCaptureScreen()),
+    ),
+    GoRoute(
+      path: '/braindump',
+      pageBuilder: (context, state) => modalPage(const BrainDumpScreen()),
+    ),
+    GoRoute(
+      path: '/task/:id',
+      pageBuilder: (context, state) =>
+          modalPage(TaskDetailScreen(taskId: state.pathParameters['id']!)),
+    ),
+  ],
+);
 
 /// Slide-up transition untuk rute modal — DESIGN_SYSTEM.md §8.
 Page<void> modalPage(Widget child) => CustomTransitionPage(
-      child: child,
-      transitionDuration: const Duration(milliseconds: 300),
-      reverseTransitionDuration: const Duration(milliseconds: 220),
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        final curved =
-            animation.drive(CurveTween(curve: const Cubic(0.2, 0, 0, 1)));
-        return SlideTransition(
-          position: Tween<Offset>(
-            begin: const Offset(0, 1),
-            end: Offset.zero,
-          ).animate(curved),
-          child: child,
-        );
-      },
+  child: child,
+  transitionDuration: const Duration(milliseconds: 300),
+  reverseTransitionDuration: const Duration(milliseconds: 220),
+  transitionsBuilder: (context, animation, secondaryAnimation, child) {
+    final curved = animation.drive(
+      CurveTween(curve: const Cubic(0.2, 0, 0, 1)),
     );
+    return SlideTransition(
+      position: Tween<Offset>(
+        begin: const Offset(0, 1),
+        end: Offset.zero,
+      ).animate(curved),
+      child: child,
+    );
+  },
+);

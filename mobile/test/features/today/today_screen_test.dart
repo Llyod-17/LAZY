@@ -26,7 +26,9 @@ void main() {
     await tester.pumpAndSettle();
   }
 
-  testWidgets('renders header, greeting, energy and lazy button', (tester) async {
+  testWidgets('renders header, greeting, energy and lazy button', (
+    tester,
+  ) async {
     await pumpToday(tester);
 
     expect(find.text('Hari ini'), findsOneWidget);
@@ -80,13 +82,18 @@ void main() {
     await db.close();
   });
 
-  testWidgets('lazy button without tasks shows friendly snackbar', (tester) async {
+  testWidgets('lazy button without tasks shows friendly snackbar', (
+    tester,
+  ) async {
     await pumpToday(tester);
 
     await tester.tap(find.text('Kasih aku yang paling ringan'));
     await tester.pumpAndSettle();
 
-    expect(find.text('Belum ada kegiatan hari ini. Santai dulu ya'), findsOneWidget);
+    expect(
+      find.text('Belum ada kegiatan hari ini. Santai dulu ya'),
+      findsOneWidget,
+    );
     expect(find.text('Saran untukmu'), findsNothing);
     await db.close();
   });

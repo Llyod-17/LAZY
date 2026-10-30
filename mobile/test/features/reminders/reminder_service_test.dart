@@ -19,13 +19,15 @@ void main() {
     tasks = TaskRepository(db);
     notifications = MockNotifications();
     when(() => notifications.init()).thenAnswer((_) async {});
-    when(() => notifications.schedule(
-          id: any(named: 'id'),
-          when: any(named: 'when'),
-          title: any(named: 'title'),
-          body: any(named: 'body'),
-          payload: any(named: 'payload'),
-        )).thenAnswer((_) async {});
+    when(
+      () => notifications.schedule(
+        id: any(named: 'id'),
+        when: any(named: 'when'),
+        title: any(named: 'title'),
+        body: any(named: 'body'),
+        payload: any(named: 'payload'),
+      ),
+    ).thenAnswer((_) async {});
     when(() => notifications.cancel(any())).thenAnswer((_) async {});
     service = ReminderService(
       db,
@@ -42,20 +44,21 @@ void main() {
 
     await service.scheduleForTask(task);
 
-    verify(() => notifications.schedule(
-          id: notificationIdFor(task.id),
-          when: any(named: 'when'),
-          title: 'Meeting',
-          body: any(named: 'body'),
-          payload: task.id,
-        )).called(1);
+    verify(
+      () => notifications.schedule(
+        id: notificationIdFor(task.id),
+        when: any(named: 'when'),
+        title: 'Meeting',
+        body: any(named: 'body'),
+        payload: task.id,
+      ),
+    ).called(1);
 
     final row = await service.getForTask(task.id);
     expect(row, isNotNull);
     expect(row!.status, 'scheduled');
     expect(row.notificationId, notificationIdFor(task.id));
-    expect(row.scheduledAt,
-        deadline.toUtc().millisecondsSinceEpoch);
+    expect(row.scheduledAt, deadline.toUtc().millisecondsSinceEpoch);
     expect(row.snoozeCount, 0);
   });
 
@@ -64,13 +67,15 @@ void main() {
 
     await service.scheduleForTask(task);
 
-    verifyNever(() => notifications.schedule(
-          id: any(named: 'id'),
-          when: any(named: 'when'),
-          title: any(named: 'title'),
-          body: any(named: 'body'),
-          payload: any(named: 'payload'),
-        ));
+    verifyNever(
+      () => notifications.schedule(
+        id: any(named: 'id'),
+        when: any(named: 'when'),
+        title: any(named: 'title'),
+        body: any(named: 'body'),
+        payload: any(named: 'payload'),
+      ),
+    );
     expect(await service.getForTask(task.id), isNull);
   });
 
@@ -84,13 +89,15 @@ void main() {
 
     await service.scheduleForTask(completed);
 
-    verifyNever(() => notifications.schedule(
-          id: any(named: 'id'),
-          when: any(named: 'when'),
-          title: any(named: 'title'),
-          body: any(named: 'body'),
-          payload: any(named: 'payload'),
-        ));
+    verifyNever(
+      () => notifications.schedule(
+        id: any(named: 'id'),
+        when: any(named: 'when'),
+        title: any(named: 'title'),
+        body: any(named: 'body'),
+        payload: any(named: 'payload'),
+      ),
+    );
   });
 
   test('does not schedule deadline in the past', () async {
@@ -101,13 +108,15 @@ void main() {
 
     await service.scheduleForTask(task);
 
-    verifyNever(() => notifications.schedule(
-          id: any(named: 'id'),
-          when: any(named: 'when'),
-          title: any(named: 'title'),
-          body: any(named: 'body'),
-          payload: any(named: 'payload'),
-        ));
+    verifyNever(
+      () => notifications.schedule(
+        id: any(named: 'id'),
+        when: any(named: 'when'),
+        title: any(named: 'title'),
+        body: any(named: 'body'),
+        payload: any(named: 'payload'),
+      ),
+    );
   });
 
   test('reschedule keeps a single row per task', () async {
@@ -152,16 +161,12 @@ void main() {
 
     expect(snoozed!.status, 'snoozed');
     expect(snoozed.snoozeCount, 1);
-    final scheduled =
-        DateTime.fromMillisecondsSinceEpoch(snoozed.scheduledAt, isUtc: true);
-    expect(
-      scheduled.isAfter(before.add(const Duration(minutes: 9))),
-      isTrue,
+    final scheduled = DateTime.fromMillisecondsSinceEpoch(
+      snoozed.scheduledAt,
+      isUtc: true,
     );
-    expect(
-      scheduled.isBefore(before.add(const Duration(minutes: 11))),
-      isTrue,
-    );
+    expect(scheduled.isAfter(before.add(const Duration(minutes: 9))), isTrue);
+    expect(scheduled.isBefore(before.add(const Duration(minutes: 11))), isTrue);
 
     final again = await service.snoozeForTask(task.id);
     expect(again!.snoozeCount, 2);
